@@ -14,8 +14,6 @@ lwfront-java:
 	javac -cp $(CLASSPATH) output/*.java
 	jar cvfe output/lwfront.jar Main output/*.class
 	if [ -e output/lwfront.jar ] ; then java -jar output/lwfront.jar ; fi
-edit-lwfront:
-	$(java) -jar $(antlrworks) Lwfront.g4
 update-grammar:
 	$(shell wget $(LWFRONT_BLOB_MASTER)/Lwfront.g4 -O Lwfront.new.g ; \
 	if [ -e Lwfront.new.g ] ; then if [ -e Lwfront.g4 ] ; then rm Lwfront.g4 ; fi ; mv Lwfront.new.g Lwfront.g4 ; fi)
