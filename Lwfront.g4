@@ -1,9 +1,9 @@
 grammar Lwfront;
 
-ID  :	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*
+ID  :   ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*
     ;
 
-INT :	'0'..'9'+
+INT :   '0'..'9'+
     ;
 
 FLOAT
@@ -80,7 +80,7 @@ function_name: ID;
 type: ID;
 
 value: INT|FLOAT|STRING|CHAR;
-	
+
 object_head: 'object' ID;
 
 static_tag: 'static' ;
@@ -92,14 +92,14 @@ visibility: 'public' | 'private' | 'protected'|'internal';
 
 member_specification
     : var_specification 
-    | function_specification	
+    | function_specification    
     ;
 
 // Variations to the C++ mainstream dialect:
-//	- visibility is required to be specified for each member variable
-//	- the colon after visibility specifier is optional    
+//  - visibility is required to be specified for each member variable
+//  - the colon after visibility specifier is optional    
 var_specification
-    : static_tag? visibility ':'? const_tag? type var_name ('=' value )? ';'	
+    : static_tag? visibility ':'? const_tag? type var_name ('=' value )? ';'
     ;
 
 // Since this is a preprocessor
@@ -107,12 +107,12 @@ var_specification
 function_body: (.*);
 
 // Variations to the C++ mainstream dialect:
-//	- visibility is required to be specified for each method
-//	- the colon after visibility specifier is optional
+//  - visibility is required to be specified for each method
+//  - the colon after visibility specifier is optional
 function_specification
     : static_tag? visibility ':'? type function_name '('  ')' const_tag? 
         '{'
-	        function_body
+            function_body
         '}'
     ;
     
