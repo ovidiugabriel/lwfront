@@ -56,7 +56,9 @@ UNICODE_ESC
     :   '\\' 'u' HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT
     ;
 
-/* Grammar Rules */
+/* ************************************************************************
+ *  Grammar Rules 
+ **************************************************************************  */
 
 compilation_unit
     :   class_specifier
@@ -85,19 +87,28 @@ static_tag: 'static' ;
 
 const_tag: 'const';
 
-visibility: 'public' | 'private' | 'protected';
+// 'internal' visibility is added as improvement over traditional C++ mode
+visibility: 'public' | 'private' | 'protected'|'internal';
 
 member_specification
     : var_specification 
     | function_specification	
     ;
-    
+
+// Variations to the C++ mainstream dialect:
+//	- visibility is required to be specified for each member variable
+//	- the colon after visibility specifier is optional    
 var_specification
     : static_tag? visibility ':'? const_tag? type var_name ('=' value )? ';'	
     ;
 
+// Since this is a preprocessor
+// everything that's inside a function body is matched
 function_body: (.*);
 
+// Variations to the C++ mainstream dialect:
+//	- visibility is required to be specified for each method
+//	- the colon after visibility specifier is optional
 function_specification
     : static_tag? visibility ':'? type function_name '('  ')' const_tag? 
         '{'
