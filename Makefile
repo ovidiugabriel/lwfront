@@ -15,7 +15,8 @@ lwfront-java:
 edit-lwfront:
 	$(java) -jar $(antlrworks) Lwfront.g
 update-grammar:
-	$(shell wget $(LWFRONT_BLOB_MASTER)/Lwfront.g -O Lwfront.new.g ; if [ -e Lwfront.new.g ] ; then if [ -e Lwfront.g ] ; then rm Lwfront.g ; fi ; mv Lwfront.new.g Lwfront.g ; fi)
+	$(shell wget $(LWFRONT_BLOB_MASTER)/Lwfront.g -O Lwfront.new.g ; \
+	if [ -e Lwfront.new.g ] ; then if [ -e Lwfront.g ] ; then rm Lwfront.g ; fi ; mv Lwfront.new.g Lwfront.g ; fi)
 clean:
 	rm output/*
 	tree output
