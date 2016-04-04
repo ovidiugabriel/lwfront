@@ -38,3 +38,79 @@
 
 ; https://reference.wolfram.com/language/ref/StringJoin.html
 (define <> string-join)
+
+; -------------------------------------------------------------------------
+
+; https://reference.wolfram.com/language/SymbolicC/ref/CComment.html
+(define (c-comment text pre-post)
+  (:= (<>
+       (list ($ (car pre-post))
+             "/*" ($ text) "*/"
+             ($ (car (cdr pre-post)))
+             )
+       ))
+  )
+
+; https://reference.wolfram.com/language/SymbolicC/ref/CParentheses.html
+(define (c-parentheses symb)
+  (:= (<> (list "(" ($ symb) ")" )))
+  )
+
+; https://reference.wolfram.com/language/SymbolicC/ref/CAssign.html
+(define (c-assign lhs rhs)
+  (:= (<> (list lhs " = " ($ rhs))))
+  )
+
+; https://reference.wolfram.com/language/SymbolicC/ref/COperator.html
+(define (c-operator oper lst)
+  (:= (<> (/@ $ lst) (<> (list " " oper " "))))
+  )
+
+; https://reference.wolfram.com/language/SymbolicC/ref/CConditional.html
+(define (c-conditional test true-arg false-arg)
+  (:= (<> (list ($ test) " ? " ($ true-arg) " : " ($ false-arg))))
+  )
+
+; https://reference.wolfram.com/language/SymbolicC/ref/CBlock.html
+(define (c-block args)
+  (:= (<>
+       (list "{" "\n"
+             (<> (/@ (compose $ c-statement)
+                     args
+                     ) "\n")
+             "\n" "}" "\n"
+             )
+       ))
+  )
+
+; https://reference.wolfram.com/language/SymbolicC/ref/CDeclare.html
+(define (c-declare type var)
+  (:= (<> (list type " " var)))
+  )
+
+; https://reference.wolfram.com/language/SymbolicC/ref/CReturn.html
+(define (c-return arg)
+  (:= (<> (list "return" " " ($ arg))))
+  )
+
+; https://reference.wolfram.com/language/SymbolicC/ref/CInclude.html
+(define (c-include header)
+  (:= (<> (list "#include \"" header "\"")))
+  )
+
+; https://reference.wolfram.com/language/SymbolicC/ref/CFunction.html
+(define (c-function type name args)
+  (:= (<>
+       (list (<> (/@ $ type) " ") " " name
+             ; parameters list
+             "(" (<> (/@ $ args) ", ") ")"
+             )
+       )
+      )
+  )
+
+; https://reference.wolfram.com/language/SymbolicC/ref/CStatement.html
+(define (c-statement obj)
+  (:= (<> (list ($ obj) ";")))
+  )
+
