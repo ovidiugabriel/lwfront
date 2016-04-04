@@ -27,7 +27,7 @@
 (define %head car)
 (define %tail cdr)
 
-; `%list` is a list of elements
+; `%%list` is a list of elements
 ;
 ; https://reference.wolfram.com/language/ref/List.html
 (define (%%list . rest)
