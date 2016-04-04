@@ -35,3 +35,6 @@
 ; Result: 6
 ;
 (define @@ apply)
+
+; https://reference.wolfram.com/language/ref/StringJoin.html
+(define <> string-join)
