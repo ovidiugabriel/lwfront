@@ -2,6 +2,7 @@
 ; https://learnxinyminutes.com/docs/racket/
 
 (require json)
+(require javascript/ast)
 (require racket/sandbox)
 
 ; Code evaluation operator
@@ -89,7 +90,7 @@
 (define (c-block args)
   (:= (<>
        (list "{" "\n"
-             (<> (/@ (compose $ c-statement)
+             (<> (/@ (@* $ c-statement)
                      args
                      ) "\n")
              "\n" "}" "\n"
@@ -113,11 +114,12 @@
   )
 
 ; https://reference.wolfram.com/language/SymbolicC/ref/CFunction.html
-(define (c-function type name args)
+(define (c-function type name args body)
   (:= (<>
        (list (<> (/@ $ type) " ") " " name
              ; parameters list
              "(" (<> (/@ $ args) ", ") ")"
+             ($ body)
              )
        )
       )
