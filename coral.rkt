@@ -27,11 +27,11 @@
 (define %head car)
 (define %tail cdr)
 
-; `%%list` is a list of elements
+; `%list` is a list of elements
 ;
 ; https://reference.wolfram.com/language/ref/List.html
-(define (%%list . rest)
-  (%%apply list rest)
+(define (%list . rest)
+  (%apply list rest)
   )
 
 ; Lazy function definition operator
@@ -62,12 +62,12 @@
 ;
 ; https://reference.wolfram.com/language/ref/Apply.html
 
-(define (%%apply f expr)
+(define (%apply f expr)
   (append (list f) (%tail expr))
   )
 
 ; https://reference.wolfram.com/language/ref/Apply.html
-(define @@ %%apply)
+(define @@ %apply)
 
 
 ; https://reference.wolfram.com/language/ref/StringJoin.html
