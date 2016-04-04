@@ -2,12 +2,15 @@
 ; https://learnxinyminutes.com/docs/racket/
 
 (require json)
-(require javascript/ast)
+; (require javascript/ast)
 (require racket/sandbox)
 
 ; Code evaluation operator
 (define $$ (make-evaluator 'racket))
 
+;
+; Decodes a JSON string
+;
 (define json-decode string->jsexpr)
 
 ; Identity function (operator)
@@ -15,8 +18,21 @@
   x
   )
 
+;
+; Gives the head of expr.
+; If applied on a %list it must always return 'List'
+;
+; https://reference.wolfram.com/language/ref/Head.html
+;
 (define %head car)
 (define %tail cdr)
+
+; `%list` is a list of elements
+;
+; https://reference.wolfram.com/language/ref/List.html
+(define (%%list . rest)
+  (%%apply list rest)
+  )
 
 ; Lazy function definition operator
 ;
@@ -42,12 +58,17 @@
 (define /@ map)
 
 ;
+; Apply works with any head, not just List:
+;
 ; https://reference.wolfram.com/language/ref/Apply.html
-;
-; Example: (@@ + '(1 2 3))
-; Result: 6
-;
-(define @@ apply)
+
+(define (%%apply f expr)
+  (append (list f) (%tail expr))
+  )
+
+; https://reference.wolfram.com/language/ref/Apply.html
+(define @@ %%apply)
+
 
 ; https://reference.wolfram.com/language/ref/StringJoin.html
 (define <> string-join)
