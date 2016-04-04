@@ -2,6 +2,10 @@
 ; https://learnxinyminutes.com/docs/racket/
 
 (require json)
+(require racket/sandbox)
+
+; Code evaluation operator
+(define $$ (make-evaluator 'racket))
 
 (define json-decode string->jsexpr)
 
