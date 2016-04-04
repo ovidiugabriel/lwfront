@@ -15,6 +15,9 @@
   x
   )
 
+(define %head car)
+(define %tail cdr)
+
 ; Lazy function definition operator
 ;
 ; This can be used only as unary operator
@@ -49,7 +52,23 @@
 ; https://reference.wolfram.com/language/ref/StringJoin.html
 (define <> string-join)
 
+; Empty string literal
+;
+; The following expression:
+;     (string-append "a" "b" "c")
+;
+; is equivalent with:
+;     (<% (list "a" "b" "c") %>)
+;
+(define <% string-join)
+(define %> "")
+
 ; -------------------------------------------------------------------------
+
+(define keyword:return "return")
+(define keyword:char "char")
+
+(define prep:include "#include")
 
 ;
 ; It is a symbolic representation of a comment.
@@ -58,12 +77,12 @@
 ; https://reference.wolfram.com/language/SymbolicC/ref/CComment.html
 ;
 (define (c-comment text pre-post)
-  (:= (<>
-       (list ($ (car pre-post))
+  (:= (<%
+       (list ($ (%head pre-post))
              "/*" ($ text) "*/"
-             ($ (car (cdr pre-post)))
+             ($ (%head (%tail pre-post)))
              )
-       ))
+       %>))
   )
 
 ; https://reference.wolfram.com/language/SymbolicC/ref/CParentheses.html
@@ -100,32 +119,47 @@
 
 ; https://reference.wolfram.com/language/SymbolicC/ref/CDeclare.html
 (define (c-declare type var)
-  (:= (<> (list type " " var)))
+  (:= (<% (list ($ type) " " var) %>))
   )
 
 ; https://reference.wolfram.com/language/SymbolicC/ref/CReturn.html
 (define (c-return arg)
-  (:= (<> (list "return" " " ($ arg))))
+  (:= (<% (list keyword:return " " ($ arg)) %>))
   )
 
 ; https://reference.wolfram.com/language/SymbolicC/ref/CInclude.html
 (define (c-include header)
-  (:= (<> (list "#include \"" header "\"")))
+  (:= (<% (list prep:include " " "\"" header "\"\n") %>))
   )
 
 ; https://reference.wolfram.com/language/SymbolicC/ref/CFunction.html
 (define (c-function type name args body)
-  (:= (<>
+  (:= (<%
        (list (<> (/@ $ type) " ") " " name
              ; parameters list
              "(" (<> (/@ $ args) ", ") ")"
              ($ body)
              )
+       %>
        )
       )
   )
 
 ; https://reference.wolfram.com/language/SymbolicC/ref/CStatement.html
 (define (c-statement obj)
-  (:= (<> (list ($ obj) ";")))
+  (:= (<% (list ($ obj) ";") %>))
+  )
+
+;
+; `c-constant` is a symbolic representation of a constant.
+;
+; https://reference.wolfram.com/language/SymbolicC/ref/CConstant.html
+;
+(define (c-constant value type)
+  (:= (<% (list ($ value) type) %>))
+  )
+
+; https://reference.wolfram.com/language/SymbolicC/ref/CPointerType.html
+(define (c-pointer-type type)
+  (:= (<% (list ($ type) "*") %>))
   )
