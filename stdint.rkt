@@ -8,6 +8,7 @@
 (provide stdint:uint32)
 (provide stdint:int64_t)
 (provide stdint:uint64_t)
+(provide stdint:header)
 
 (define stdint:int8 "int8_t")
 (define stdint:uint8 "uint8_t")
@@ -17,3 +18,4 @@
 (define stdint:uint32 "uint32_t")
 (define stdint:int64_t "int64_t")
 (define stdint:uint64_t "uint64_t")
+(define stdint:header "stdint.h")
