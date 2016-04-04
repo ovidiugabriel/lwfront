@@ -18,8 +18,8 @@
 ;
 ; This can be used only as unary operator
 ;
-(define ($ p)
-  (force p)
+(define ($ text)
+  (~a (force text))
   )
 
 ; https://reference.wolfram.com/language/ref/Composition.html
