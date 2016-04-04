@@ -1,4 +1,9 @@
 #lang racket
+; https://learnxinyminutes.com/docs/racket/
+
+(require json)
+
+(define json-decode string->jsexpr)
 
 ; Identity function (operator)
 (define (id x)
@@ -41,7 +46,12 @@
 
 ; -------------------------------------------------------------------------
 
+;
+; It is a symbolic representation of a comment.
+; Includes text to add before and after the comment.
+;
 ; https://reference.wolfram.com/language/SymbolicC/ref/CComment.html
+;
 (define (c-comment text pre-post)
   (:= (<>
        (list ($ (car pre-post))
@@ -113,4 +123,3 @@
 (define (c-statement obj)
   (:= (<> (list ($ obj) ";")))
   )
-
