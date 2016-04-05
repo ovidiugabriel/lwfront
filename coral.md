@@ -12,7 +12,7 @@ A promise encapsulates an expression to be evaluated on demand.
 ```
 > (define d (:= '(1 2 3 4)))
 > d ; a promise that encapsulates the expression
-#<promise:...e/ofarauanu/prep.rkt:44:2>
+#<promise:...:44:2>
 > (force d) ; evaluates the promise
 '(1 2 3 4)
 > ($ d) ; this evaluates always to a string
