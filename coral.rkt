@@ -31,7 +31,9 @@
 ;
 ; https://reference.wolfram.com/language/ref/List.html
 (define (%list . rest)
-  (%apply list rest)
+  ; the first element must be duplicated because
+  ; it is replaced by the apply operation
+  (@@ list (append (list (%head rest)) rest))
   )
 
 ; Lazy function definition operator
@@ -99,9 +101,9 @@
 ;
 (define (c-comment text pre-post)
   (:= (<%
-       (list ($ (%head pre-post))
+       (list ($ (%head ($$ pre-post)))
              "/*" ($ text) "*/"
-             ($ (%head (%tail pre-post)))
+             ($ (%head (%tail ($$ pre-post))))
              )
        %>))
   )
