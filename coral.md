@@ -17,5 +17,7 @@ A promise encapsulates an expression to be evaluated on demand.
 `%list` holds a list of elements in its original list form, preventing function application until this is explicitly requested using `$$` operator
 
 ```
-(define lst (%list e1 e2 ...))
+(define lst (%list 1 2 3 4))
+lst
+($$ l)
 ```
