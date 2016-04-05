@@ -18,8 +18,8 @@ A promise encapsulates an expression to be evaluated on demand.
 
 ```
 > (define lst (%list 1 2 3 4))
-> lst
+> lst ; this is the list in hold form
 '(#<procedure:list> 1 2 3 4)
-> ($$ l)
+> ($$ l) ; this will evaluate to a list
 '(1 2 3 4)
 ```
