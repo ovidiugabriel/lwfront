@@ -15,7 +15,7 @@ A promise encapsulates an expression to be evaluated on demand.
 #<promise:...:44:2>
 > (force d) ; evaluates the promise
 '(1 2 3 4)
-> ($ d) ; this evaluates always to a string
+> ($ d) ; this always evaluates to a string
 "(1 2 3 4)"
 ```
 
