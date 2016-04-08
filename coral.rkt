@@ -2,7 +2,6 @@
 ; https://learnxinyminutes.com/docs/racket/
 
 (require json)
-; (require javascript/ast)
 (require racket/sandbox)
 
 ; Code evaluation operator
@@ -129,7 +128,9 @@
   )
 
 ; https://reference.wolfram.com/language/SymbolicC/ref/CBlock.html
-(define (c-block args)
+(define/contract (c-block args)
+  (->i ([args list?])
+       [result promise?])
   (:= (<>
        (list "{" "\n"
              (<> (/@ (@* $ c-statement)
@@ -141,7 +142,10 @@
   )
 
 ; https://reference.wolfram.com/language/SymbolicC/ref/CDeclare.html
-(define (c-declare type var)
+(define/contract (c-declare type var)
+  (->i ([type any/c]
+        [var string?])
+       [result promise?])
   (:= (<% (list ($ type) " " var) %>))
   )
 
@@ -156,7 +160,12 @@
   )
 
 ; https://reference.wolfram.com/language/SymbolicC/ref/CFunction.html
-(define (c-function type name args body)
+(define/contract (c-function type name args body)
+  (->i ([type any/c]
+        [name string?]
+        [args list?]
+        [body any/c])
+       [result promise?])
   (:= (<%
        (list (<> (/@ $ type) " ") " " name
              ; parameters list
