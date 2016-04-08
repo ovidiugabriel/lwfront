@@ -2,6 +2,9 @@
 ; https://learnxinyminutes.com/docs/racket/
 
 (require json)
+(require javascript/ast)
+(require javascript/parse)
+(require javascript/compile)
 (require racket/sandbox)
 
 ; Code evaluation operator
@@ -13,9 +16,7 @@
 (define json-decode string->jsexpr)
 
 ; Identity function (operator)
-(define (id x)
-  x
-  )
+(define (id x) x)
 
 ;
 ; Gives the head of expr.
@@ -29,7 +30,10 @@
 ; `%list` is a list of elements
 ;
 ; https://reference.wolfram.com/language/ref/List.html
-(define (%list . rest)
+(define/contract (%list . rest)
+  (->i ([rest list?])
+      [result list?]
+   )
   ; the first element must be duplicated because
   ; it is replaced by the apply operation
   (@@ list (append (list (%head rest)) rest))
@@ -39,7 +43,9 @@
 ;
 ; This can be used only as unary operator
 ;
-(define (:= f)
+(define/contract (:= f)
+  (->i ([f any/c])
+       [result promise?])
   (lazy f)
   )
 
@@ -48,7 +54,9 @@
 ;
 ; This can be used only as unary operator
 ;
-(define ($ text)
+(define/contract ($ text)
+  (->i ([text any/c])
+       [result string?])
   (~a (force text))
   )
 
@@ -63,7 +71,10 @@
 ;
 ; https://reference.wolfram.com/language/ref/Apply.html
 
-(define (%apply f expr)
+(define/contract (%apply f expr)
+  (->i ([f procedure?]
+        [expr list?])
+       [result list?])
   (append (list f) (%tail expr))
   )
 
