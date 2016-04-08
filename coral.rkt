@@ -2,9 +2,6 @@
 ; https://learnxinyminutes.com/docs/racket/
 
 (require json)
-(require javascript/ast)
-(require javascript/parse)
-(require javascript/compile)
 (require racket/sandbox)
 
 ; Code evaluation operator
