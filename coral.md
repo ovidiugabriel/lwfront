@@ -30,3 +30,11 @@ A promise encapsulates an expression to be evaluated on demand.
 > ($$ lst) ; this will evaluate to a list
 '(1 2 3 4)
 ```
+
+###### Simple quote operator (Racket)
+
+```
+(define x '(+ 1 2)) ; 1 + 2 in holding form
+x
+($$ x) ; lazy evaluate value of x
+```
