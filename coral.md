@@ -34,7 +34,9 @@ A promise encapsulates an expression to be evaluated on demand.
 ###### Simple quote operator (Racket)
 
 ```
-(define x '(+ 1 2)) ; 1 + 2 in holding form
-x
-($$ x) ; lazy evaluate value of x
+> (define x '(+ 1 2)) ; 1 + 2 in holding form
+> x
+'(+ 1 2)
+> ($$ x) ; lazy evaluate value of x
+3
 ```
