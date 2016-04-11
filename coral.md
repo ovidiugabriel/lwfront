@@ -59,6 +59,7 @@ A promise encapsulates an expression to be evaluated on demand.
 
 ###### Lambda function (Racket)
 
+```
 > (define (x) (λ () 5))
 > x ; here x is a function
 #<procedure:x>
@@ -68,3 +69,4 @@ A promise encapsulates an expression to be evaluated on demand.
 
 > ((x)) ; the lambda function is called
 5
+```
