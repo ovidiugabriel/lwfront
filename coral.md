@@ -56,3 +56,15 @@ A promise encapsulates an expression to be evaluated on demand.
 > ($$ x) ; lazy evaluate value of x
 3
 ```
+
+###### Lambda function (Racket)
+
+> (define (x) (λ () 5))
+> x ; here x is a function
+#<procedure:x>
+
+> (x) ; the lambda function is returned
+#<procedure:λ>
+
+> ((x)) ; the lambda function is called
+5
