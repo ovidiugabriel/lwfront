@@ -22,7 +22,7 @@
 ###### Simple quote operator equivalence
 
 There is an obvious equivalence between `%list` and `'` operator. 
-And their effect is the same - to prevent the applicative behavior in list expressions.
+And their effect is the same - to prevent the applicative behavior in list expressions. This is done by duplicating the head of the list.
 
 ```
 > (define x '(+ 1 2)) ; 1 + 2 in holding form
