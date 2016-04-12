@@ -2,9 +2,46 @@
 ##### Features
 
 * lazy evaluation (delayed assignment)
+  * holding list form until explicit evaluation - native support from the language syntax
   * creating composable promise
-  * holding list form until explicit evaluation
   * thunking with a lambda function
+
+###### Holding List Constructor
+
+`%list` holds a list of elements in its original list form, preventing function application until this is explicitly requested using `$$` operator
+
+```
+> (define lst (%list 1 2 3 4))
+> lst ; this is the list in hold form
+'(#<procedure:list> 1 2 3 4)
+
+> ($$ lst) ; this will evaluate to a list
+'(1 2 3 4)
+```
+
+###### Simple quote operator
+
+There is an intrinsic intimacy between `%list` and `'` operator. Their effect is the same.
+It prevents the applicative behavior in Racket list expressions.
+
+```
+> (define x '(+ 1 2)) ; 1 + 2 in holding form
+> x
+'(+ 1 2)
+
+> ($$ x) ; lazy evaluate value of x
+3
+
+> (list + 1 2)         ; delayed additive expression
+'(#<procedure:+> 1 2)
+
+> ($$ (list + 1 2))
+3
+
+> (list list 1 2 3 4)       ; it is the same as (%list 1 2 3 4)
+'(#<procedure:list> 1 2 3 4)
+
+```
 
 ###### Delayed Assignment Operator
 
@@ -32,30 +69,6 @@ A promise encapsulates an expression to be evaluated on demand.
 > ($ y) ; here y is a variable
 "5"
 
-```
-
-###### Holding List Constructor
-
-`%list` holds a list of elements in its original list form, preventing function application until this is explicitly requested using `$$` operator
-
-```
-> (define lst (%list 1 2 3 4))
-> lst ; this is the list in hold form
-'(#<procedure:list> 1 2 3 4)
-
-> ($$ lst) ; this will evaluate to a list
-'(1 2 3 4)
-```
-
-###### Simple quote operator (Racket)
-
-```
-> (define x '(+ 1 2)) ; 1 + 2 in holding form
-> x
-'(+ 1 2)
-
-> ($$ x) ; lazy evaluate value of x
-3
 ```
 
 ###### Lambda function (Racket)
