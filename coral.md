@@ -19,9 +19,10 @@
 '(1 2 3 4)
 ```
 
-###### Simple quote operator
+###### Simple quote operator equivalence
 
-There is an intrinsic intimacy between `%list` and `'` operator. Their effect is the same - to prevent the applicative behavior in list expressions.
+There is an obvious equivalence between `%list` and `'` operator. 
+And their effect is the same - to prevent the applicative behavior in list expressions.
 
 ```
 > (define x '(+ 1 2)) ; 1 + 2 in holding form
