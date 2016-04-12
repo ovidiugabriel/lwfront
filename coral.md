@@ -71,7 +71,3 @@ A promise encapsulates an expression to be evaluated on demand.
 > ((x)) ; the lambda function is called
 5
 ```
-
-##### Lectures
-
-* http://www.paulgraham.com/progbot.html
