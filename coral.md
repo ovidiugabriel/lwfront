@@ -21,8 +21,7 @@
 
 ###### Simple quote operator
 
-There is an intrinsic intimacy between `%list` and `'` operator. Their effect is the same.
-It prevents the applicative behavior in Racket list expressions.
+There is an intrinsic intimacy between `%list` and `'` operator. Their effect is the same - to prevent the applicative behavior in Racket list expressions.
 
 ```
 > (define x '(+ 1 2)) ; 1 + 2 in holding form
