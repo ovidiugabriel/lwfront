@@ -8,3 +8,6 @@ Other projects you may be insterested in:
 * [Cling](https://root.cern.ch/cling)
 * [Ch](https://www.softintegration.com/)
 * [MQL4/MQL5](https://en.wikipedia.org/wiki/MetaQuotes_Language_MQL4/MQL5#The_MQL4_and_MQL5_Syntax_and_their_Difference_from_.D0.A1.2B.2B)
+
+
+[![Flattr Button](http://api.flattr.com/button/button-compact-static-100x17.png "Flattr This!")](https://flattr.com/submit/auto?fid=66xpok&url=https%3A%2F%2Fgithub.com%2Fovidiugabriel%2Flwfront "")
