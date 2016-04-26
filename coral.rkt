@@ -28,9 +28,12 @@
 ;
 ; https://reference.wolfram.com/language/ref/List.html
 (define (%list . rest)
-  ; the first element must be duplicated because
-  ; it is replaced by the apply operation
-  (@@ list (append (list (%head rest)) rest))
+  (if (> (length rest) 0)
+      ; the first element must be duplicated because
+      ; it is replaced by the apply operation
+      (@@ list (append (list (%head rest)) rest))
+      null
+   )
   )
 
 (define (eval-as-is expr)
@@ -101,6 +104,18 @@
 
 (define prep:include "#include")
 
+(define (list-first pre-post)
+  (if (> (length pre-post) 0)
+      (%head ($$ pre-post))
+      "")
+  )
+
+(define (list-second pre-post)
+  (if (> (length pre-post) 2)
+      (%head (%tail ($$ pre-post)))
+      "")
+  )
+
 ;
 ; It is a symbolic representation of a comment.
 ; Includes text to add before and after the comment.
@@ -108,10 +123,10 @@
 ; https://reference.wolfram.com/language/SymbolicC/ref/CComment.html
 ;
 (define (c-comment text pre-post)
-  (:= (<%
-       (list ($ (%head ($$ pre-post)))
+  (%list (<%
+       (list ($ (list-first pre-post))
              "/*" ($ text) "*/"
-             ($ (%head (%tail ($$ pre-post))))
+             ($ (list-second pre-post))
              )
        %>))
   )
@@ -123,12 +138,12 @@
 
 ; https://reference.wolfram.com/language/SymbolicC/ref/CAssign.html
 (define (c-assign lhs rhs)
-  (:= (<> (list lhs " = " ($ rhs))))
+  (%list (<> (list lhs " = " ($ rhs))))
   )
 
 ; https://reference.wolfram.com/language/SymbolicC/ref/COperator.html
 (define (c-operator oper lst)
-  (:= (<> (/@ $ lst) (<> (list " " oper " "))))
+  (%list (<> (/@ $ lst) (<> (list " " oper " "))))
   )
 
 ; https://reference.wolfram.com/language/SymbolicC/ref/CConditional.html
