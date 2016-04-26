@@ -133,7 +133,7 @@
 
 ; https://reference.wolfram.com/language/SymbolicC/ref/CParentheses.html
 (define (c-parentheses symb)
-  (:= (<> (list "(" ($ symb) ")" )))
+  (%list (<> (list "(" ($ symb) ")" )))
   )
 
 ; https://reference.wolfram.com/language/SymbolicC/ref/CAssign.html
