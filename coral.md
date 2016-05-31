@@ -43,6 +43,20 @@ And their effect is the same - to prevent the applicative behavior in list expre
 
 ```
 
+```
+> '(a b c)
+'(a b c)
+> (list 'a 'b 'c)
+'(a b c)
+> (list a b c)
+a: undefined;
+ cannot reference undefined identifier
+  context...:
+   /opt/racket/share/racket/collects/racket/private/misc.rkt:87:7
+
+```
+
+
 ###### Delayed Assignment Operator
 
 A promise encapsulates an expression to be evaluated on demand.
