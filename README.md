@@ -7,8 +7,8 @@ Other projects you may be insterested in:
 * [CINT](https://root.cern.ch/introduction-cint)
 * [Cling](https://root.cern.ch/cling)
 * [Ch](https://www.softintegration.com/)
-  *  https://www.softintegration.com/docs/ch/safech/
-  *  https://www.softintegration.com/docs/ch/shell/
+  *  [Safe Ch subset](https://www.softintegration.com/docs/ch/safech/)
+  *  [Ch as shell](https://www.softintegration.com/docs/ch/shell/)
 * [MQL4/MQL5](https://en.wikipedia.org/wiki/MetaQuotes_Language_MQL4/MQL5#The_MQL4_and_MQL5_Syntax_and_their_Difference_from_.D0.A1.2B.2B)
 
 
