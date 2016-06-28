@@ -1,19 +1,21 @@
 #lang racket
+
 ;; https://learnxinyminutes.com/docs/racket/
 
 (require json)
-(require racket/sandbox)
-
-;; Code evaluation operator
-(define $$ (make-evaluator 'racket))
+(require racket/sandbox)  ;; required for evaluation of racket expressions
 
 ;;
 ;; Decodes a JSON string
 ;;
 (define json-decode string->jsexpr)
 
+;; Code evaluation operator
+(define $$ (make-evaluator 'racket))
+
 ;; Identity function (operator)
 (define (id x) x)
+(define Identity id) ;; alias
 
 ;;
 ;; Gives the head of expr.
@@ -24,9 +26,11 @@
 (define %head car)
 (define %tail cdr)
 
+;;
 ;; `%list` is a list of elements
 ;;
 ;; https://reference.wolfram.com/language/ref/List.html
+;;
 (define (%list . rest)
   (if (> (length rest) 0)
       ;; the first element must be duplicated because
@@ -36,10 +40,15 @@
    )
   )
 
+;;
+;; Evaluates an expression by applying (using @@ operator) the Identity function
+;; (id operator) over the expression and then calling the Racket code evaluator
+;;
 (define (eval-as-is expr)
   ($$ (@@ id expr))
   )
 
+;;
 ;; Lazy function definition operator
 ;;
 ;; This can be used only as unary operator
@@ -77,7 +86,7 @@
 ;; Apply works with any head, not just List:
 ;;
 ;; https://reference.wolfram.com/language/ref/Apply.html
-
+;;
 (define/contract (%apply f expr)
   (->i ([f procedure?]
         [expr list?])
@@ -85,7 +94,12 @@
   (append (list f) (%tail expr))
   )
 
+;;
+;; Apply Operator (shorthand for %apply)
+;; Apply works with any head, not just List:
+;;
 ;; https://reference.wolfram.com/language/ref/Apply.html
+;;
 (define @@ %apply)
 
 
@@ -104,23 +118,47 @@
 (define %> "")
 
 ;; -------------------------------------------------------------------------
+;; Makes it easy to working with a hierarchical view of code as Raket expressions.
+;; This supports the use of the Racket language for the creation, manipulation, 
+;; and optimization of code. 
+;;
+;; https://reference.wolfram.com/language/SymbolicC/guide/SymbolicC.html
+;;
+;; -------------------------------------------------------------------------
 
+;; a list of simple definitions
 (define keyword:return "return")
 (define keyword:char "char")
 
 (define prep:include "#include")
 
+;; 
+;; Functions
+;;
+
+;;
+;; Racket already provides list first, but this function does more than that
+;;
 (define (list-first pre-post)
   (if (> (length pre-post) 0)
       (%head ($$ pre-post))
       "")
   )
 
+;;
+;; Racket already provides list second, but this function does more than that
+;;
 (define (list-second pre-post)
   (if (> (length pre-post) 2)
       (%head (%tail ($$ pre-post)))
       "")
   )
+
+;;
+;; Functions for C code generation
+;;
+;; https://reference.wolfram.com/language/SymbolicC/guide/SymbolicC.html
+;;
 
 ;;
 ;; It is a symbolic representation of a comment.
