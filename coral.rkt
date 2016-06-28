@@ -55,6 +55,12 @@
 ;;
 ;; This can be used only as unary operator
 ;;
+;; Very similar to ToCodeString(), which generates a string of code from a symbolic expression
+;; 
+;; Symbolic expressions are inert; they evaluate to themselves, staying in 
+;; an unevaluated form.
+;; Symbolic expressions can be converted into a string with this function.
+;;
 (define/contract ($ text)
   (->i ([text any/c])
        [result string?])
