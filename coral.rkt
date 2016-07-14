@@ -263,3 +263,20 @@
 (define (c-pointer-type type)
   (:= (<% (list ($ type) "*") %>))
   )
+
+
+;; https://reference.wolfram.com/language/SymbolicC/ref/CStandardMathOperator.html
+(define (c-standard-math-operator)
+  )
+  
+;; https://reference.wolfram.com/language/SymbolicC/ref/CExpression.html
+(define (c-expression)
+  )
+
+;; https://reference.wolfram.com/language/SymbolicC/ref/CProgram.html
+(define (c-program)
+  )
+  
+;; https://reference.wolfram.com/language/SymbolicC/ref/CDo.html
+(define (c-do)
+  )
