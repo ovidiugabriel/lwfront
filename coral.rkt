@@ -300,3 +300,11 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CWhile.html
 (define (c-while)
   )
+
+;; https://reference.wolfram.com/language/SymbolicC/ref/CCast.html
+(define (c-cast)
+  )
+  
+;; https://reference.wolfram.com/language/SymbolicC/ref/CDeclare.html
+(define (c-declare)
+  )
