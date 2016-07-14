@@ -159,6 +159,78 @@
 ;;
 ;; https://reference.wolfram.com/language/SymbolicC/guide/SymbolicC.html
 ;;
+;; ---------------------------------------------------------------------
+;; Symbol                     Description
+;; ---------------------------------------------------------------------
+;; << C expressions. >>
+;; (c-operator)  	            an operator expression
+;; (c-assign)                 represent an assignment
+;; (c-standard-math-operator) call a standard math operator
+;; (c-conditional)            a conditional expression
+;;
+;; << Grouping constructs to hold entire statements. >>
+;; (c-statement)              a C statement
+;; (c-block)	                a block of C statements
+;; (c-program)	              an entire program
+;;
+;; << Programming constructs. >>
+;; (c-for)	                  a for loop
+;; (c-if) 	                  an if statement
+;; (c-do) 	                  a do while statement
+;; (c-while)	                a while statement
+;; (c-switch) 	              a switch statement
+;; (c-default)	              a switch statement
+;;
+;; << Type constructs. >>
+;; (c-struct)                 a struct definition
+;; (c-union)	                a union definition
+;; (c-typedef)	              a typedef statement
+;; (c-enum) 	                an enum definition
+;; (c-cast) 	                a cast statement
+;; (c-pointer-type)	          a pointer type
+;; (c-size-of)	              a sizeof expression
+;; (c-declare)	              declare the type of an object
+;;
+;; << Function constructs. >>
+;; (c-function)	              a function definition
+;; (c-call)	                  a function call
+;; (c-return)	                a return statement
+;;
+;; << Execution flow control constructs. >>
+;; (c-goto)	                  a goto statement
+;; (c-label)	                a label
+;; (c-continue)	              a continue statement
+;; (c-break)	                a break statement
+;;
+;; << Struct access constructs. >>
+;; (c-member)	                access a member of a struct
+;; (c-pointer-member)	        access a member of a pointer to a struct
+;;
+;; << Address and dereference operators. >>
+;; (c-address)	              take the address of an object
+;; (c-dereference)	          dereference a pointer
+;; (c-array)	                an array
+;;
+;; << Formatting constructs. >>
+;; (c-comment)	              a comment
+;; (c-parentheses)	          parentheses
+;; (c-string)	                a string
+;;                            - convert symbolic C to a string
+;;
+;; << Preprocessor statements. >>
+;; (c-include)	              include a header
+;; (c-define)	                define a macro
+;; (c-error)	                generate an error
+;; (c-line)	                  set the line number
+;; (c-pragma)	                extra information for the compiler
+;; (c-preprocessor-if)        conditional compile if
+;; (c-preprocessor-ifdef)     conditional compile ifdef
+;; (c-preprocessor-ifndef)	  conditional compile ifndef
+;; (c-preprocessor-else)	    conditional compile else
+;; (c-preprocessor-elif)	    conditional compile elif
+;; (c-preprocessor-endif)	    conditional compile endif
+;; (c-undef)	                undefine a macro
+;; ---------------------------------------------------------------------
 
 ;;
 ;; It is a symbolic representation of a comment.
@@ -408,28 +480,44 @@
   )
   
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CPreprocessorElse.html
-(define (c-preprocessor-else)
+(define (c-preprocessor-else) ;; fun take no params.
   )
 
+;;
+;; a symbolic representation of a preprocessor endif conditional.
+;;
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CPreprocessorEndif.html
-(define (c-preprocessor-endif)
+(define (c-preprocessor-endif)  ;; fun take no params.
   )
 
+;;
+;; a symbolic representation of a preprocessor if conditional.
+;;
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CPreprocessorIf.html
-(define (c-preprocessor-if)
+;;
+(define (c-preprocessor-if bcond on-true on-false)
   )
 
+;;
+;; a symbolic representation of a preprocessor ifdef conditional.
+;;
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CPreprocessorIfdef.html
-(define (c-preprocessor-ifdef)
+;;
+(define (c-preprocessor-ifdef bcond on-true on-false)
   )
-  
+
+;;
+;; a symbolic representation of a preprocessor ifndef conditional.
+;;
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CPreprocessorIfndef.html
-(define (c-preprocessor-ifndef)
+;;
+(define (c-preprocessor-ifndef bcond on-true on-false)
   )
   
 ;;
 ;; a symbolic representation of a preprocessor undef.
 ;;
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CUndef.html
+;;
 (define (undef def)
   )
