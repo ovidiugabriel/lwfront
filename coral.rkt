@@ -379,3 +379,11 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CDereference.html
 (define (c-dereference)
   )
+
+;; https://reference.wolfram.com/language/SymbolicC/ref/CArray.html
+(define (c-array)
+  )
+
+;; https://reference.wolfram.com/language/SymbolicC/ref/CDefine.html
+(define (c-define)
+  )
