@@ -387,3 +387,10 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CDefine.html
 (define (c-define)
   )
+
+;;
+;; a symbolic representation of a preprocessor error directive.
+;;
+;; https://reference.wolfram.com/language/SymbolicC/ref/CError.html
+(define (c-error line)
+  )
