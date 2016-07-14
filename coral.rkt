@@ -398,3 +398,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CLine.html
 (define (c-line line)
   )
+  
+;; https://reference.wolfram.com/language/SymbolicC/ref/CPragma.html
+(define (c-pragma line)
+  )
