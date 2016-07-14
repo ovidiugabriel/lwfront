@@ -394,3 +394,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CError.html
 (define (c-error line)
   )
+
+;; https://reference.wolfram.com/language/SymbolicC/ref/CLine.html
+(define (c-line line)
+  )
