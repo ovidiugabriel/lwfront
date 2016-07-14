@@ -402,3 +402,34 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CPragma.html
 (define (c-pragma line)
   )
+
+;; https://reference.wolfram.com/language/SymbolicC/ref/CPreprocessorElif.html
+(define (c-preprocessor-elif)
+  )
+  
+;; https://reference.wolfram.com/language/SymbolicC/ref/CPreprocessorElse.html
+(define (c-preprocessor-else)
+  )
+
+;; https://reference.wolfram.com/language/SymbolicC/ref/CPreprocessorEndif.html
+(define (c-preprocessor-endif)
+  )
+
+;; https://reference.wolfram.com/language/SymbolicC/ref/CPreprocessorIf.html
+(define (c-preprocessor-if)
+  )
+
+;; https://reference.wolfram.com/language/SymbolicC/ref/CPreprocessorIfdef.html
+(define (c-preprocessor-ifdef)
+  )
+  
+;; https://reference.wolfram.com/language/SymbolicC/ref/CPreprocessorIfndef.html
+(define (c-preprocessor-ifndef)
+  )
+  
+;;
+;; a symbolic representation of a preprocessor undef.
+;;
+;; https://reference.wolfram.com/language/SymbolicC/ref/CUndef.html
+(define (undef def)
+  )
