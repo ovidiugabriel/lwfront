@@ -371,3 +371,11 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CPointerMember.html
 (define (c-pointer-member)
   )
+
+;; https://reference.wolfram.com/language/SymbolicC/ref/CAddress.html
+(define (c-address)
+  )
+  
+;; https://reference.wolfram.com/language/SymbolicC/ref/CDereference.html
+(define (c-dereference)
+  )
