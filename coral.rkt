@@ -280,3 +280,23 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CDo.html
 (define (c-do)
   )
+
+;; https://reference.wolfram.com/language/SymbolicC/ref/CFor.html
+(define (c-for)
+  )
+  
+;; https://reference.wolfram.com/language/SymbolicC/ref/CIf.html
+(define (c-if)
+  )
+
+;; https://reference.wolfram.com/language/SymbolicC/ref/CSwitch.html
+(define (c-switch)
+  )
+  
+;; https://reference.wolfram.com/language/SymbolicC/ref/CDefault.html
+(define (c-default)
+  )
+
+;; https://reference.wolfram.com/language/SymbolicC/ref/CWhile.html
+(define (c-while)
+  )
