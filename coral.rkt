@@ -308,3 +308,66 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CDeclare.html
 (define (c-declare)
   )
+
+;; https://reference.wolfram.com/language/SymbolicC/ref/CEnum.html
+(define (c-enum)
+  )
+  
+;; https://reference.wolfram.com/language/SymbolicC/ref/CStruct.html
+(define (c-struct)
+  )
+  
+;; https://reference.wolfram.com/language/SymbolicC/ref/CUnion.html
+(define (c-union)
+  )
+  
+;; https://reference.wolfram.com/language/SymbolicC/ref/CTypedef.html
+(define (c-typedef)
+  )
+
+;; https://reference.wolfram.com/language/SymbolicC/ref/CSizeOf.html
+(define (c-size-of)
+  )
+
+;;
+;;a symbolic representation of a call to a function.  
+;;
+;; https://reference.wolfram.com/language/SymbolicC/ref/CCall.html
+;;
+(define (c-call fname args)
+  )
+
+;;
+;; a symbolic representation of a break statement.
+;;
+;; https://reference.wolfram.com/language/SymbolicC/ref/CBreak.html
+;;
+(define (c-break))
+
+;;
+;; a symbolic representation of a continue statement.
+;;
+;; https://reference.wolfram.com/language/SymbolicC/ref/CContinue.html
+;;
+(define (c-continue) ;; fun take no params.
+  )
+
+;; https://reference.wolfram.com/language/SymbolicC/ref/CGoto.html
+(define (c-goto)
+  )
+  
+;; https://reference.wolfram.com/language/SymbolicC/ref/CLabel.html
+(define (c-label)
+  )
+
+;;
+;; a symbolic representation of access from a struct.
+;;
+;; https://reference.wolfram.com/language/SymbolicC/ref/CMember.html
+;;
+(define (c-member obj mem)
+  )
+  
+;; https://reference.wolfram.com/language/SymbolicC/ref/CPointerMember.html
+(define (c-pointer-member)
+  )
