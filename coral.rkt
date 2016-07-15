@@ -252,21 +252,36 @@
   (%list (<> (list "(" ($ symb) ")" )))
   )
 
+;;
+;; is a symbolic representation of an assignment statement.
+;;
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CAssign.html
+;;
 (define (c-assign lhs rhs)
   (%list (<> (list lhs " = " ($ rhs))))
   )
 
+;;
+;; a symbolic representation of an operator.
+;;
 ;; https://reference.wolfram.com/language/SymbolicC/ref/COperator.html
+;;
 (define (c-operator oper lst)
   (%list (<> (/@ $ lst) (<> (list " " oper " "))))
   )
 
+;;
+;; a symbolic representation of an inline conditional expression.
+;;
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CConditional.html
+;;
 (define (c-conditional test true-arg false-arg)
   (:= (<> (list ($ test) " ? " ($ true-arg) " : " ($ false-arg))))
   )
 
+;; 
+;;  @param list args
+;;
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CBlock.html
 (define/contract (c-block args)
   (->i ([args list?])
@@ -281,6 +296,13 @@
        ))
   )
 
+;;
+;; a symbolic representation of a variable declaration.
+;;
+;; This function is using a contract
+;;    @param any type
+;;    @param string var
+;;
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CDeclare.html
 (define/contract (c-declare type var)
   (->i ([type any/c]
@@ -289,17 +311,35 @@
   (:= (<% (list ($ type) " " var) %>))
   )
 
+;;
+;; is a symbolic representation of a return from a function. 
+;;
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CReturn.html
+;;
 (define (c-return arg)
   (:= (<% (list keyword:return " " ($ arg)) %>))
   )
 
+;;
+;; a symbolic representation of a preprocessor include statement. 
+;;
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CInclude.html
+;;
 (define (c-include header)
   (:= (<% (list prep:include " " "\"" header "\"\n") %>))
   )
 
+;;
+;; a symbolic representation of a function definition.
+;;
+;; This function is using a contract.
+;;    @param any type
+;;    @param string name
+;;    @param list args
+;;    @param any body
+;;
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CFunction.html
+;;
 (define/contract (c-function type name args body)
   (->i ([type any/c]
         [name string?]
