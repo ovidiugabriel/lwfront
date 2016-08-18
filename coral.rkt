@@ -83,6 +83,7 @@
 (define /@ map)
 
 ;;
+;; Replaces the head of `expr` by `f`
 ;; Apply works with any head, not just List:
 ;;
 ;; https://reference.wolfram.com/language/ref/Apply.html
