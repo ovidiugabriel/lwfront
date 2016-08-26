@@ -105,6 +105,18 @@ A promise encapsulates an expression to be evaluated on demand.
 5
 ```
 
+###### cons keyword
+
+```
+> (cons "a" "b")
+'("a" . "b")
+> (cons 1 '(2 3))
+'(1 2 3)
+```
+
 ##### Lectures
 
 * http://www.paulgraham.com/progbot.html
+
+
+
