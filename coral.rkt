@@ -79,8 +79,14 @@
 ;; https://reference.wolfram.com/language/ref/Composition.html
 (define @* compose)
 
+;; using ring operator is also supported
+(define ∘ compose)
+
 ;; https://reference.wolfram.com/language/ref/Map.html
 (define /@ map)
+
+;; using alpha as operator is also supported
+(define α map)
 
 ;;
 ;; Replaces the head of `expr` by `f`
