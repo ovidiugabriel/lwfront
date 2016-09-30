@@ -119,10 +119,10 @@
 ;;     (string-append "a" "b" "c")
 ;;
 ;; is equivalent with:
-;;     (<% (list "a" "b" "c") %>)
+;;     (\. (list "a" "b" "c"))
 ;;
-(define <% string-join)
-(define %> "")
+(define \. string-join)
+
 
 ;; -------------------------------------------------------------------------
 ;; Makes it easy to working with a hierarchical view of code as Raket expressions.
@@ -246,12 +246,12 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CComment.html
 ;;
 (define (c-comment text pre-post)
-  (%list (<%
+  (%list (\.
        (list ($ (list-first pre-post))
              "/*" ($ text) "*/"
              ($ (list-second pre-post))
              )
-       %>))
+       ))
   )
 
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CParentheses.html
@@ -315,7 +315,7 @@
   (->i ([type any/c]
         [var string?])
        [result promise?])
-  (:= (<% (list ($ type) " " var) %>))
+  (:= (\. (list ($ type) " " var)))
   )
 
 ;;
@@ -324,7 +324,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CReturn.html
 ;;
 (define (c-return arg)
-  (:= (<% (list keyword:return " " ($ arg)) %>))
+  (:= (\. (list keyword:return " " ($ arg)) ))
   )
 
 ;;
@@ -333,7 +333,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CInclude.html
 ;;
 (define (c-include header)
-  (:= (<% (list prep:include " " "\"" header "\"\n") %>))
+  (:= (\. (list prep:include " " "\"" header "\"\n") ))
   )
 
 ;;
@@ -353,13 +353,12 @@
         [args list?]
         [body any/c])
        [result promise?])
-  (:= (<%
+  (:= (\.
        (list (<> (/@ $ type) " ") " " name
              ; parameters list
              "(" (<> (/@ $ args) ", ") ")"
              ($ body)
              )
-       %>
        )
       )
   )
@@ -370,7 +369,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CStatement.html
 ;;
 (define (c-statement obj)
-  (:= (<% (list ($ obj) ";") %>))
+  (:= (\. (list ($ obj) ";") ))
   )
 
 ;;
@@ -379,7 +378,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CConstant.html
 ;;
 (define (c-constant value type)
-  (:= (<% (list ($ value) type) %>))
+  (:= (\. (list ($ value) type) ))
   )
 
 ;;
@@ -388,7 +387,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CPointerType.html
 ;;
 (define (c-pointer-type type)
-  (:= (<% (list ($ type) "*") %>))
+  (:= (\. (list ($ type) "*") ))
   )
 
 ;;
