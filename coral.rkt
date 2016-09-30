@@ -53,9 +53,7 @@
 ;;
 ;; This can be used only as unary operator
 ;;
-(define/contract (:= f)
-  (->i ([f any/c])
-       [result promise?])
+(define (:= f)
   (lazy f)
   )
 
@@ -70,9 +68,7 @@
 ;; an unevaluated form.
 ;; Symbolic expressions can be converted into a string with this function.
 ;;
-(define/contract ($ text)
-  (->i ([text any/c])
-       [result string?])
+(define ($ text)
   (~a (force text))
   )
 
@@ -94,10 +90,7 @@
 ;;
 ;; https://reference.wolfram.com/language/ref/Apply.html
 ;;
-(define/contract (%apply f expr)
-  (->i ([f procedure?]
-        [expr list?])
-       [result list?])
+(define (%apply f expr)
   (append (list f) (%tail expr))
   )
 
@@ -290,9 +283,7 @@
 ;;  @param list args
 ;;
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CBlock.html
-(define/contract (c-block args)
-  (->i ([args list?])
-       [result promise?])
+(define (c-block args)
   (:= (<>
        (list "{" "\n"
              (<> (/@ (@* $ c-statement)
@@ -311,10 +302,7 @@
 ;;    @param string var
 ;;
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CDeclare.html
-(define/contract (c-declare type var)
-  (->i ([type any/c]
-        [var string?])
-       [result promise?])
+(define (c-declare type var)
   (:= (\. (list ($ type) " " var)))
   )
 
@@ -339,20 +327,9 @@
 ;;
 ;; a symbolic representation of a function definition.
 ;;
-;; This function is using a contract.
-;;    @param any type
-;;    @param string name
-;;    @param list args
-;;    @param any body
-;;
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CFunction.html
 ;;
-(define/contract (c-function type name args body)
-  (->i ([type any/c]
-        [name string?]
-        [args list?]
-        [body any/c])
-       [result promise?])
+(define (c-function type name args body)
   (:= (\.
        (list (<> (/@ $ type) " ") " " name
              ; parameters list
