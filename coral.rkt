@@ -107,15 +107,16 @@
 ;; https://reference.wolfram.com/language/ref/StringJoin.html
 (define <> string-join)
 
-;; Empty string literal
+;; Empty string literal?
+
 ;;
 ;; The following expression:
 ;;     (string-append "a" "b" "c")
 ;;
 ;; is equivalent with:
-;;     (\. (list "a" "b" "c"))
+;;     (string-join (list "a" "b" "c"))
 ;;
-(define \. string-join)
+(define .. string-append)
 
 
 ;; -------------------------------------------------------------------------
@@ -240,13 +241,13 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CComment.html
 ;;
 (define (c-comment text pre-post)
-  (%list (\.
-       (list ($ (list-first pre-post))
+  (%list (.. ($ (list-first pre-post))
              "/*" ($ text) "*/"
              ($ (list-second pre-post))
              )
-       ))
+         )
   )
+  
 
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CParentheses.html
 (define (c-parentheses symb)
@@ -304,7 +305,7 @@
 ;;
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CDeclare.html
 (define (c-declare type var)
-  (:= (\. (list ($ type) " " var)))
+  (:= (.. ($ type) " " var))
   )
 
 ;;
@@ -313,7 +314,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CReturn.html
 ;;
 (define (c-return arg)
-  (:= (\. (list keyword:return " " ($ arg)) ))
+  (:= (.. keyword:return " " ($ arg)) )
   )
 
 ;;
@@ -322,7 +323,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CInclude.html
 ;;
 (define (c-include header)
-  (:= (\. (list prep:include " " "\"" header "\"\n") ))
+  (:= (.. prep:include " " "\"" header "\"\n") )
   )
 
 ;;
@@ -331,15 +332,14 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CFunction.html
 ;;
 (define (c-function type name args body)
-  (:= (\.
-       (list (<> (/@ $ type) " ") " " name
-             ; parameters list
-             "(" (<> (/@ $ args) ", ") ")"
-             ($ body)
-             )
-       )
+  (:= (.. (<> (/@ $ type) " ") " " name
+          ; parameters list
+          "(" (<> (/@ $ args) ", ") ")"
+          ($ body)
+          )
       )
   )
+
 
 ;;
 ;; is a symbolic representation of a statement. 
@@ -347,7 +347,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CStatement.html
 ;;
 (define (c-statement obj)
-  (:= (\. (list ($ obj) ";") ))
+  (:= (.. ($ obj) ";") )
   )
 
 ;;
@@ -356,7 +356,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CConstant.html
 ;;
 (define (c-constant value type)
-  (:= (\. (list ($ value) type) ))
+  (:= (.. ($ value) type))
   )
 
 ;;
@@ -365,8 +365,9 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CPointerType.html
 ;;
 (define (c-pointer-type type)
-  (:= (\. (list ($ type) "*") ))
+  (:= (.. ($ type) "*") )
   )
+  
 
 ;;
 ;; a symbolic representation of a standard math operator.
@@ -374,7 +375,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CStandardMathOperator.html
 ;;
 (define (c-standard-math-operator oper args)
-  )
+  0 )
 
 ;;
 ;; a symbolic representation of code that will format using CForm[arg].
@@ -382,7 +383,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CExpression.html
 ;;
 (define (c-expression arg)
-  )
+  0 )
 
 ;;
 ;; a symbolic representation of an entire program.
@@ -390,7 +391,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CProgram.html
 ;;
 (define (c-program args)
-  )
+  0 )
 
 ;;
 ;; is a symbolic representation of a do/while statement.
@@ -398,7 +399,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CDo.html
 ;;
 (define (c-do body test)
-  )
+  0 )
 
 ;;
 ;; a symbolic representation of a for loop.
@@ -406,7 +407,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CFor.html
 ;;
 (define (c-for init test incr body)
-  )
+  0 )
 
 ;;
 ;; a symbolic representation of a conditional statement. 
@@ -414,7 +415,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CIf.html
 ;;
 (define (c-if test on-true on-false)
-  )
+  0 )
 
 ;;
 ;; is a symbolic representation of a switch statement.
@@ -422,7 +423,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CSwitch.html
 ;;
 (define (c-switch xcond statements)
-  )
+  0 )
 
 ;;
 ;; a symbolic representation of a default statement.
@@ -430,7 +431,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CDefault.html
 ;;
 (define (c-default) ;; fun takes no param
-  )
+  0 )
 
 ;;
 ;; a symbolic representation of a while statement.
@@ -438,7 +439,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CWhile.html
 ;;
 (define (c-while test body)
-  )
+  0 )
 
 ;;
 ;; a symbolic representation of a cast of obj to type.
@@ -446,15 +447,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CCast.html
 ;;
 (define (c-cast type obj)
-  )
-
-;;
-;; a symbolic representation of a variable declaration.
-;;
-;; https://reference.wolfram.com/language/SymbolicC/ref/CDeclare.html
-;;
-(define (c-declare type var)
-  )
+  0 )
 
 ;;
 ;; a symbolic representation of an enum statement.
@@ -462,7 +455,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CEnum.html
 ;;
 (define (c-enum name members)
-  )
+  0 )
 
 ;;
 ;; a symbolic representation of a struct.
@@ -470,7 +463,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CStruct.html
 ;;
 (define (c-struct name members)
-  )
+  0 )
 
 ;;
 ;; a symbolic representation of a union.
@@ -478,7 +471,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CUnion.html
 ;;
 (define (c-union name members)
-  )
+  0 )
   
 ;;
 ;; a symbolic representation of a type declaration.
@@ -486,7 +479,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CTypedef.html
 ;;
 (define (c-typedef type var)
-  )
+  0 )
 
 ;;
 ;; a symbolic representation of a sizeof expression.
@@ -494,7 +487,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CSizeOf.html
 ;;
 (define (c-size-of obj)
-  )
+  0 )
 
 ;;
 ;;a symbolic representation of a call to a function.  
@@ -502,7 +495,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CCall.html
 ;;
 (define (c-call fname args)
-  )
+  0 )
 
 ;;
 ;; a symbolic representation of a break statement.
@@ -510,7 +503,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CBreak.html
 ;;
 (define (c-break) ;; fun take no params
-  )
+  0 )
 
 ;;
 ;; a symbolic representation of a continue statement.
@@ -518,7 +511,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CContinue.html
 ;;
 (define (c-continue) ;; fun take no params.
-  )
+  0 )
 
 ;;
 ;; a symbolic representation of a goto statement.
@@ -526,7 +519,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CGoto.html
 ;;
 (define (c-goto label)
-  )
+  0 )
   
 ;;
 ;; a symbolic representation of a label.
@@ -534,7 +527,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CLabel.html
 ;;
 (define (c-label label)
-  )
+  0 )
 
 ;;
 ;; a symbolic representation of access from a struct.
@@ -542,7 +535,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CMember.html
 ;;
 (define (c-member obj mem)
-  )
+  0 )
 
 ;;
 ;; a symbolic representation of access from a pointer to a struct.
@@ -550,7 +543,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CPointerMember.html
 ;;
 (define (c-pointer-member obj mem)
-  )
+  0 )
 
 ;;
 ;; a symbolic representation of the address of an object.
@@ -558,7 +551,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CAddress.html
 ;;
 (define (c-address obj)
-  )
+  0 )
 
 ;;
 ;; a symbolic representation of the dereferencing of a pointer.
@@ -566,7 +559,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CDereference.html
 ;;
 (define (c-dereference obj)
-  )
+  0 )
 
 ;;
 ;; a symbolic representation of an array.
@@ -574,7 +567,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CArray.html
 ;;
 (define (c-array name args)
-  )
+  0 )
 
 ;;
 ;; a symbolic representation of a preprocessor define.
@@ -582,14 +575,14 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CDefine.html
 ;;
 (define (c-define def)
-  )
+  0 )
 
 ;;
 ;; a symbolic representation of a preprocessor error directive.
 ;;
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CError.html
 (define (c-error text-line)
-  )
+  0 )
 
 ;;
 ;; a symbolic representation of a preprocessor line directive.
@@ -597,7 +590,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CLine.html
 ;;
 (define (c-line line)
-  )
+  0 )
 
 ;;
 ;; a symbolic representation of a preprocessor pragma directive.
@@ -605,7 +598,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CPragma.html
 ;;
 (define (c-pragma line)
-  )
+  0 )
 
 ;;
 ;; a symbolic representation of a preprocessor elif conditional.
@@ -613,7 +606,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CPreprocessorElif.html
 ;;
 (define (c-preprocessor-elif bcond)
-  )
+  0 )
   
 ;;
 ;; a symbolic representation of a preprocessor else conditional.
@@ -621,14 +614,14 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CPreprocessorElse.html
 ;;
 (define (c-preprocessor-else) ;; fun take no params.
-  )
+  0 )
 
 ;;
 ;; a symbolic representation of a preprocessor endif conditional.
 ;;
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CPreprocessorEndif.html
 (define (c-preprocessor-endif)  ;; fun take no params.
-  )
+  0 )
 
 ;;
 ;; a symbolic representation of a preprocessor if conditional.
@@ -636,7 +629,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CPreprocessorIf.html
 ;;
 (define (c-preprocessor-if bcond on-true on-false)
-  )
+  0 )
 
 ;;
 ;; a symbolic representation of a preprocessor ifdef conditional.
@@ -644,7 +637,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CPreprocessorIfdef.html
 ;;
 (define (c-preprocessor-ifdef bcond on-true on-false)
-  )
+  0 )
 
 ;;
 ;; a symbolic representation of a preprocessor ifndef conditional.
@@ -652,7 +645,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CPreprocessorIfndef.html
 ;;
 (define (c-preprocessor-ifndef bcond on-true on-false)
-  )
+  0 )
   
 ;;
 ;; a symbolic representation of a preprocessor undef.
@@ -660,4 +653,4 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CUndef.html
 ;;
 (define (undef def)
-  )
+  0 )
