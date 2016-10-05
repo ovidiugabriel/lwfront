@@ -12,6 +12,7 @@
 
 ;; Code evaluation operator
 (define $$ (make-evaluator 'racket))
+(define § $$)
 
 ;; Identity function (operator)
 (define (id x) x)
