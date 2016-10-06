@@ -10,30 +10,24 @@
   (displayln "use Pharen\\Lexical as Lexical;")
   (displayln "use \\Seq as Seq;")
   (displayln "use \\FastSeq as FastSeq")
-  (displayln (string-append "Lexical::$scopes['" init-scope "'] = array();"))
-  )
+  (displayln (string-append "Lexical::$scopes['" init-scope "'] = array();")) )
 
 (define (get-type x)
   (cond
-    ((dict? x) "dict")
-    ((list? x) "list")          
-    ((pair? x) "pair")
-    ((number? x) "number")
-    ((string? x) "string")
-    )
-  )
+    [(dict? x) "dict"]
+    [(list? x) "list"]
+    [(pair? x) "pair"]
+    [(number? x) "number"]
+    [(string? x) "string"] ))
 
 (define (decorate data)
   (match (get-type data)
     ["string" (string-append "\"" data "\"")]
     ["list" (compile data)]
-    [_ (string-append "$" (normal-name data))]
-      )
-  )
+    [_ (string-append "$" (normal-name data))] ))
 
 (define (normal-name name)
-  (string-replace (~a name) "-" "_")
-  )
+  (string-replace (~a name) "-" "_") )
 
 ;;
 ;; Compiles a line to a function call
@@ -41,9 +35,8 @@
 ;; Please keep this 'pure'
 ;;
 (define (compile line)
-  (define args (string-join (map decorate (cdr line)) ", " ) )
-  (string-append (normal-name (car line)) "(" args ")")
-  )
+  (define args (string-join (map decorate (cdr line)) ", " ))
+  (string-append (normal-name (car line)) "(" args ")") )
 
 (define (handle-list line)
   (match (car line)
@@ -54,9 +47,7 @@
     ['echo (displayln "echo")]
     ['let (displayln "let")]
     ['.. (displayln "..")]
-    [_ (displayln (string-append (compile line) ";"))]
-    )
-  )
+    [_ (displayln (string-append (compile line) ";"))] ))
 
 (define (read-datum line)
   (unless (eof-object? line)
@@ -64,11 +55,7 @@
       [(list? line) (handle-list line)]
       [(number? line) (displayln "number")]
       [(string? line) (displayln "string")]
-      [else (displayln (string-append "*** unknown-type: " (get-type line)))]
-      )
-    ;; (println (car line))
-    )
-  )
+      [else (displayln (string-append "*** unknown-type: " (get-type line)))] )))
 
 (define (parse-file filename)
   (define in (open-input-file filename))
@@ -83,8 +70,6 @@
   (let loop ()
     (define line (read in))
     (read-datum line)
-    (unless (eof-object? line) (loop)))
-  )
+    (unless (eof-object? line) (loop))) )
 
 (parse-file "new-hello.rkt")
-
