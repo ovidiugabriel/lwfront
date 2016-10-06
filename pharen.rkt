@@ -24,15 +24,21 @@
   (match (get-type data)
     ["string" (string-append "\"" data "\"")]
     ["list" (compile data)]
+    ["number" (~a data)]
     [_ (string-append "$" (normal-name data))] #|<ins>|# ) )
 
 (define (normal-name name)
-  (string-replace (~a name) "-" "_") #|<ins>|# )
+  (match (~a name)
+    ["-" "-"] ; don't replace minus operation
+    [_ (string-replace (~a name) "-" "_") ] #|<ins>|# ))
 
 (define (compile-rest line)
   (define args (string-join (map decorate (cdr line)) ", " ))
   (string-append (normal-name (car line)) "(" args ")" ) #|<ins>|# )
 
+(define (to-infix line op)
+  (string-join (map decorate (cdr line)) op)
+  )
 
 ;;
 ;; Compiles a line to a function call
@@ -41,7 +47,10 @@
 ;;
 (define (compile line)
   (match (car line)
-    ['.. (string-join (map decorate (cdr line)) " . ")]
+    ['.. (to-infix line " . ")]
+    ['+  (to-infix line " + ")]
+    ['-  (to-infix line " - ")]
+    ['*  (to-infix line " * ")]
     [_ (compile-rest line)] #|<ins>|# ) )
 
 (define (handle-list line)
@@ -50,7 +59,6 @@
     ['define (displayln "define")]
     ['fn (displayln "fn")]
     ['let (displayln "let")]
-    ;; ['.. (displayln (string-join (map decorate (cdr line)) " . "))]
     [_ (displayln (string-append (compile line) ";"))] #|<ins>|# ) )
 
 (define (read-datum line)
