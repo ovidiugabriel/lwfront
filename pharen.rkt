@@ -4,6 +4,10 @@
 
 ;; http://www.pharen.org/reference.html
 
+(define (%apply f expr)
+  (append (list f) (cdr expr))
+)
+
 (define (print-header init-scope)
   (displayln "<?php")
   (displayln "require_once(getenv('PHAREN_HOME').'/lang.php');")
@@ -29,25 +33,30 @@
 (define (normal-name name)
   (string-replace (~a name) "-" "_") )
 
+(define (compile-rest line)
+  (define args (string-join (map decorate (cdr line)) ", " ))
+  (string-append (normal-name (car line)) "(" args ")" ) )
+
+
 ;;
 ;; Compiles a line to a function call
 ;;
 ;; Please keep this 'pure'
 ;;
 (define (compile line)
-  (define args (string-join (map decorate (cdr line)) ", " ))
-  (string-append (normal-name (car line)) "(" args ")") )
+  (match (car line)
+    ['.. (string-join (map decorate (cdr line)) " . ")]
+    [_ (compile-rest line)] ))
 
 (define (handle-list line)
   (match (car line)
     ['define-syntax-rule (displayln "rule")]
     ['define (displayln "define")]
     ['fn (displayln "fn")]
-    ['print (displayln "print")]
-    ['echo (displayln "echo")]
     ['let (displayln "let")]
-    ['.. (displayln "..")]
-    [_ (displayln (string-append (compile line) ";"))] ))
+    ;; ['.. (displayln (string-join (map decorate (cdr line)) " . "))]
+    [_ (displayln (string-append (compile line) ";"))]
+    ))
 
 (define (read-datum line)
   (unless (eof-object? line)
@@ -59,11 +68,11 @@
 
 (define (parse-file filename)
   (define in (open-input-file filename))
-
+  
   ;; First line is language-info
   ;; we need to mute that
   (define file-language-info (read-language in))
-
+  
   (print-header "hello")
   
   ;; Then have to read the rest of the file
