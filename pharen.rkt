@@ -4,10 +4,6 @@
 
 ;; http://www.pharen.org/reference.html
 
-(define (%apply f expr)
-  (append (list f) (cdr expr))
-)
-
 (define (print-header init-scope)
   (displayln "<?php")
   (displayln "require_once(getenv('PHAREN_HOME').'/lang.php');")
