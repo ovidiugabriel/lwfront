@@ -51,6 +51,7 @@
     ['+  (to-infix line " + ")]
     ['-  (to-infix line " - ")]
     ['*  (to-infix line " * ")]
+    ['$ (string-trim (string-trim (~a (cdr line)) "(") ")")]
     ['list (vector-from-array (cdr line))]
     [_ (compile-rest line)] ) )
 
