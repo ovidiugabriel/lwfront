@@ -12,13 +12,7 @@
                  "use \\FastSeq as FastSeq\n"
                  (string-append "Lexical::$scopes['" init-scope "'] = array();\n\n") ) )
 
-(define (get-type x)
-  (cond
-    [(dict? x) "dict"]
-    [(list? x) "list"]
-    [(pair? x) "pair"]
-    [(number? x) "number"]
-    [(string? x) "string"] ) )
+
 
 (define (decorate data)
   (cond
@@ -58,9 +52,23 @@
     ['define (displayln "define")]
     ['fn (displayln "fn")]
     ['let (displayln "let")]
+
+    ; Generates a variable definition in the current scope
+    ['def (displayln (string-append (string-join (map decorate (cdr line)) " = ") ";"))]
+
+    ; Compile the list as a generic language construct
     [_ (displayln (string-append (compile line) ";"))] ) )
 
 (define (read-datum line)
+  (define (get-type x)
+    (cond
+      [(dict? x) "dict"]
+      [(list? x) "list"]
+      [(pair? x) "pair"]
+      [(number? x) "number"]
+      [(string? x) "string"] ) )
+  
+  
   (unless (eof-object? line)
     (cond
       [(list? line) (handle-list line)]
