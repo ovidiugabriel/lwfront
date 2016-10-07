@@ -4,6 +4,8 @@
 
 ;; http://www.pharen.org/reference.html
 
+;; https://docs.racket-lang.org/infix-manual/index.html
+
 (define (get-php-header init-scope)
   (string-append "<?php\n\n"
                  "require_once(getenv('PHAREN_HOME').'/lang.php');\n"
@@ -12,7 +14,12 @@
                  "use \\FastSeq as FastSeq\n"
                  (string-append "Lexical::$scopes['" init-scope "'] = array();\n\n") ) )
 
+(define (get-bind-lexing scope ident name)
+  (string-append "Lexical::bind_lexing(\"" scope "\", " ident ", '$" name "', $" name ");\n") )
 
+(define (vector-from-array lst)
+  (string-append "PharenVector::create_from_array(array("
+               (string-join (map decorate lst) ", ") "))") )
 
 (define (decorate data)
   (cond
@@ -28,7 +35,7 @@
 
 (define (compile-rest line)
   (define args (string-join (map decorate (cdr line)) ", " ))
-  (string-append (normal-name (car line)) "(" args ")" ) )
+  (string-append (normal-name (car line)) "(" args ")"  ) )
 
 (define (to-infix line op)
   (string-join (map decorate (cdr line)) op) )
@@ -44,17 +51,19 @@
     ['+  (to-infix line " + ")]
     ['-  (to-infix line " - ")]
     ['*  (to-infix line " * ")]
+    ['list (vector-from-array (cdr line))]
     [_ (compile-rest line)] ) )
+
+;; Generates a variable definition in the current scope
+(define (handle-def line)
+  (displayln (string-append (string-join (map decorate (cdr line)) " = ") ";")) )
 
 (define (handle-list line)
   (match (car line)
-    ['define-syntax-rule (displayln "rule")]
-    ['define (displayln "define")]
+    ['define-syntax-rule 0] ; just ignore this
     ['fn (displayln "fn")]
-    ['let (displayln "let")]
-
-    ; Generates a variable definition in the current scope
-    ['def (displayln (string-append (string-join (map decorate (cdr line)) " = ") ";"))]
+    ['let (displayln "let")]    
+    ['def (handle-def line)]
 
     ; Compile the list as a generic language construct
     [_ (displayln (string-append (compile line) ";"))] ) )
