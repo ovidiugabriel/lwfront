@@ -59,12 +59,8 @@
 (define (handle-def line)
   (string-append (string-join (map decorate line) " = ") ";") )
 
-(define (let-as-define line)
-  (string-append (decorate (first line)) " = " (decorate (second line)))
-  )
-
 (define (handle-let line)
-   (string-append (string-join (map let-as-define (car line)) ";\n") ";\n"
+   (string-append (string-join (map handle-def (car line)) "\n") "\n"
                   (string-join (map compile (cdr line)) ";\n") ";\n"
                   ) )
 
