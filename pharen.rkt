@@ -31,7 +31,7 @@
 (define (normal-name name)
   (match (~a name)
     ["-" "-"] ; don't replace minus operation
-    [_ (string-replace (~a name) "-" "_") ] ))
+    [_ (string-replace (string-replace (~a name) "-" "_") "~" "fmt_" )] ))
 
 (define (compile-rest line)
   (define args (string-join (map decorate (cdr line)) ", " ))
@@ -57,14 +57,23 @@
 
 ;; Generates a variable definition in the current scope
 (define (handle-def line)
-  (displayln (string-append (string-join (map decorate (cdr line)) " = ") ";")) )
+  (string-append (string-join (map decorate line) " = ") ";") )
+
+(define (let-as-define line)
+  (string-append (decorate (first line)) " = " (decorate (second line)))
+  )
+
+(define (handle-let line)
+   (string-append (string-join (map let-as-define (car line)) ";\n") ";\n"
+                  (string-join (map compile (cdr line)) ";\n") ";\n"
+                  ) )
 
 (define (handle-list line)
   (match (car line)
     ['define-syntax-rule 0] ; just ignore this
     ['fn (displayln "fn")]
-    ['let (displayln "let")]    
-    ['def (handle-def line)]
+    ['let (displayln (handle-let (cdr line)))]    
+    ['def (displayln (handle-def (cdr line)))]
 
     ; Compile the list as a generic language construct
     [_ (displayln (string-append (compile line) ";"))] ) )
@@ -88,17 +97,15 @@
 
 (define (parse-file filename)
   (define in (open-input-file filename))
-  
-  ;; First line is language-info
-  ;; we need to mute that
-  (define file-language-info (read-language in))
-  
+
+  (let ([file-language-info (read-language in)]) null)
+
   (display (get-php-header "hello"))
   
   ;; Then have to read the rest of the file
   (let loop ()
-    (define line (read in))
-    (read-datum line)
-    (unless (eof-object? line) (loop))) )
+    (let ([line (read in)])
+      (read-datum line)
+      (unless (eof-object? line) (loop)))) ) 
 
 (parse-file "new-hello.rkt")
