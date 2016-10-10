@@ -6,12 +6,23 @@
 
 ;; https://docs.racket-lang.org/infix-manual/index.html
 
+(define error-reporting "E_ALL|E_STRICT")
+(define display-errors "1")
+
+(define (get-php-exception message code)
+  (string-append "throw new Exception(\"" message "\", " (~a code) ");\n") )
+
 (define (get-php-header init-scope)
   (string-append "<?php\n\n"
+                 "error_reporting(" error-reporting ");\n"
+                 "ini_set('" display-errors "', 1);\n"
+                 "if (!getenv('PHAREN_HOME')) {\n"
+                 "    " (get-php-exception "PHAREN_HOME is not set" 1)
+                 "}\n\n"
                  "require_once(getenv('PHAREN_HOME').'/lang.php');\n"
                  "use Pharen\\Lexical as Lexical;\n"
                  "use \\Seq as Seq;\n"
-                 "use \\FastSeq as FastSeq\n"
+                 "use \\FastSeq as FastSeq;\n"
                  (string-append "Lexical::$scopes['" init-scope "'] = array();\n\n") ) )
 
 (define (get-bind-lexing scope ident name)
