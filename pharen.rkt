@@ -6,16 +6,37 @@
 
 ;; https://docs.racket-lang.org/infix-manual/index.html
 
-(define error-reporting "E_ALL|E_STRICT")
-(define display-errors "1")
+(require racket/cmdline)
+
+(define param-error-reporting (make-parameter #f))
+(define param-display-errors (make-parameter #f))
+
+(define file-to-compile
+  (command-line
+   #:multi
+   ["--error-reporting" e
+                        ""
+                        (param-error-reporting e)]
+   
+   ["--display-errors" d
+                       ""
+                       (param-display-errors d)]
+   
+   #:args (filename)
+   filename))
+
+(define error-reporting (param-error-reporting))
+(define display-errors (param-display-errors))
+
+;; ------------------------------------------------------------------------------------
 
 (define (get-php-exception message code)
   (string-append "throw new Exception(\"" message "\", " (~a code) ");\n") )
 
 (define (get-php-header init-scope)
   (string-append "<?php\n\n"
-                 "error_reporting(" error-reporting ");\n"
-                 "ini_set('display_errors', " display-errors ");\n"
+                 (if error-reporting (string-append "error_reporting(" error-reporting ");\n") "")
+                 (if display-errors (string-append "ini_set('display_errors', " display-errors ");\n") "")
                  "if (!getenv('PHAREN_HOME')) {\n"
                  "    " (get-php-exception "PHAREN_HOME is not set" 1)
                  "}\n\n"
@@ -115,4 +136,4 @@
       (read-datum line)
       (unless (eof-object? line) (loop)))) ) 
 
-(parse-file "new-hello.rkt")
+(parse-file file-to-compile)
