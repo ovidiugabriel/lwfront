@@ -15,7 +15,7 @@
 (define (get-php-header init-scope)
   (string-append "<?php\n\n"
                  "error_reporting(" error-reporting ");\n"
-                 "ini_set('" display-errors "', 1);\n"
+                 "ini_set('display_errors', " display-errors ");\n"
                  "if (!getenv('PHAREN_HOME')) {\n"
                  "    " (get-php-exception "PHAREN_HOME is not set" 1)
                  "}\n\n"
