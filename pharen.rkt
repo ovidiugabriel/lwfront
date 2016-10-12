@@ -30,6 +30,12 @@
 
 ;; ------------------------------------------------------------------------------------
 
+(define (tpl-replace subject replacements)
+  (dict-for-each replacements
+                 (λ (k v)
+                   (set! subject (string-replace subject k v) ) ))
+  subject )
+
 (define (get-php-exception message code)
   (string-append "throw new Exception(\"" message "\", " (~a code) ");\n") )
 
@@ -63,7 +69,8 @@
 (define (normal-name name)
   (match (~a name)
     ["-" "-"] ; don't replace minus operation
-    [_ (string-replace (string-replace (~a name) "-" "_") "~" "fmt_" )] ))
+    [_ (tpl-replace (~a name) '(("-" . "_")
+                              ("~" . "fmt_") )) ] ))
 
 (define (compile-rest line)
   (define args (string-join (map decorate (cdr line)) ", " ))
