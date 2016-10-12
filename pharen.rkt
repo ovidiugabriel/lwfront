@@ -83,7 +83,7 @@
     ['+  (to-infix line " + ")]
     ['-  (to-infix line " - ")]
     ['*  (to-infix line " * ")]
-    ['$  (string-join (cdr-line))] ;; Infix expression as string
+    ['$  (string-join (cdr line))] ;; Infix expression as string
     ['list (vector-from-array (cdr line))]
     [_ (compile-rest line)] ) )
 
