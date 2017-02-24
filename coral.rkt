@@ -105,7 +105,10 @@
 
 
 ;; https://reference.wolfram.com/language/ref/StringJoin.html
-(define <> string-join)
+(define (<> . sl)
+  (cond
+    [(list? (list-ref sl 0)) (string-join (list-ref sl 0))]
+    [else (string-join sl)] ) )
 
 ;; Empty string literal?
 
