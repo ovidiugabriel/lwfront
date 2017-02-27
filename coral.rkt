@@ -18,6 +18,11 @@
 (define (id x) x)
 (define Identity id) ;; alias
 
+(define ≤ <=)
+(define ≥ >=)
+(define (!= . rest) (not (apply = rest)))
+(define ≠ !=)
+
 ;;
 ;; Gives the head of expr.
 ;; If applied on a %list it must always return 'List'
