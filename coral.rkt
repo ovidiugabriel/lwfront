@@ -55,28 +55,28 @@
   )
 
 ;;
-;; Lazy function definition operator
+;; Lazy function definition operator.
+;;
+;; Used to create creates a composable promise, 
+;; where the computation of its body is “attached” to the computation of the following promise,
+;; and a single force iterates through the whole chain
+;; See: https://docs.racket-lang.org/reference/Delayed_Evaluation.html
 ;;
 ;; This can be used only as unary operator
 ;;
 (define (:= f)
-  (lazy f)
-  )
+  (lazy f))
 
 ;;
-;; String evaluation operator
-;;
-;; This can be used only as unary operator
-;;
-;; Very similar to ToCodeString(), which generates a string of code from a symbolic expression
-;; 
-;; Symbolic expressions are inert; they evaluate to themselves, staying in 
-;; an unevaluated form.
+;; Generates a string of code from a symbolic expression.
 ;; Symbolic expressions can be converted into a string with this function.
 ;;
-(define ($ text)
-  (~a (force text))
-  )
+;; Very similar to ToCodeString(), which generates a string of code from a symbolic expression
+;; Ref: http://reference.wolfram.com/language/SymbolicC/ref/ToCCodeString.html
+;; 
+(define (expr->code-string text)
+  (~a (force text)))
+(define $ expr->code-string)
 
 ;; https://reference.wolfram.com/language/ref/Composition.html
 (define @* compose)
