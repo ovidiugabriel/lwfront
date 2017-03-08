@@ -42,17 +42,14 @@
       ;; the first element must be duplicated because
       ;; it is replaced by the apply operation
       (@@ list (append (list (%head rest)) rest))
-      null
-   )
-  )
+      null))
 
 ;;
 ;; Evaluates an expression by applying (using @@ operator) the Identity function
 ;; (id operator) over the expression and then calling the Racket code evaluator
 ;;
 (define (eval-as-is expr)
-  ($$ (@@ id expr))
-  )
+  ($$ (@@ id expr)))
 
 ;;
 ;; Lazy function definition operator.
@@ -97,8 +94,7 @@
 ;; https://reference.wolfram.com/language/ref/Apply.html
 ;;
 (define (%apply f expr)
-  (append (list f) (%tail expr))
-  )
+  (append (list f) (%tail expr)))
 
 ;;
 ;; Apply Operator (shorthand for %apply)
