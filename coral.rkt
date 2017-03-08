@@ -259,8 +259,7 @@
 
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CParentheses.html
 (define (c-parentheses symb)
-  (%list (<> (list "(" ($ symb) ")" )))
-  )
+  (%list (<> (list "(" ($ symb) ")" ))))
 
 ;;
 ;; is a symbolic representation of an assignment statement.
@@ -268,8 +267,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CAssign.html
 ;;
 (define (c-assign lhs rhs)
-  (%list (<> (list lhs " = " ($ rhs))))
-  )
+  (%list (<> (list lhs " = " ($ rhs)))))
 
 ;;
 ;; a symbolic representation of an operator.
@@ -277,8 +275,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/COperator.html
 ;;
 (define (c-operator oper lst)
-  (%list (<> (/@ $ lst) (<> (list " " oper " "))))
-  )
+  (%list (<> (/@ $ lst) (<> (list " " oper " ")))))
 
 ;;
 ;; a symbolic representation of an inline conditional expression.
@@ -286,8 +283,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CConditional.html
 ;;
 (define (c-conditional test true-arg false-arg)
-  (:= (<> (list ($ test) " ? " ($ true-arg) " : " ($ false-arg))))
-  )
+  (:= (<> (list ($ test) " ? " ($ true-arg) " : " ($ false-arg)))))
 
 ;; 
 ;;  @param list args
@@ -313,8 +309,7 @@
 ;;
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CDeclare.html
 (define (c-declare type var)
-  (:= (.. ($ type) " " var))
-  )
+  (:= (.. ($ type) " " var)))
 
 ;;
 ;; is a symbolic representation of a return from a function. 
@@ -322,8 +317,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CReturn.html
 ;;
 (define (c-return arg)
-  (:= (.. keyword:return " " ($ arg)) )
-  )
+  (:= (.. keyword:return " " ($ arg)) ))
 
 ;;
 ;; a symbolic representation of a preprocessor include statement. 
@@ -331,8 +325,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CInclude.html
 ;;
 (define (c-include header)
-  (:= (.. prep:include " " "\"" header "\"\n") )
-  )
+  (:= (.. prep:include " " "\"" header "\"\n") ))
 
 ;;
 ;; a symbolic representation of a function definition.
@@ -355,8 +348,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CStatement.html
 ;;
 (define (c-statement obj)
-  (:= (.. ($ obj) ";") )
-  )
+  (:= (.. ($ obj) ";") ))
 
 ;;
 ;; `c-constant` is a symbolic representation of a constant.
@@ -364,8 +356,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CConstant.html
 ;;
 (define (c-constant value type)
-  (:= (.. ($ value) type))
-  )
+  (:= (.. ($ value) type)))
 
 ;;
 ;; a symbolic representation of a type that is a pointer to a type.
@@ -373,8 +364,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CPointerType.html
 ;;
 (define (c-pointer-type type)
-  (:= (.. ($ type) "*") )
-  )
+  (:= (.. ($ type) "*") ))
   
 
 ;;
