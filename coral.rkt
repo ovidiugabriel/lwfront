@@ -646,5 +646,23 @@
 ;;
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CUndef.html
 ;;
-(define (undef def)
+(define (c-undef def)
   0 )
+
+;;
+;; compiles a string of C code and creates an executable file.
+;;
+(define (create-executable code name) 
+  ($ code))
+
+;;
+;; compiles a string of C code and creates a library file.
+;;
+(define (create-library code name) 
+  ($ code))
+
+;;
+;; compiles a string of C code and creates an object file.
+;;
+(define (create-object-file source name)
+  ($ code))
