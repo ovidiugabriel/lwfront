@@ -16,7 +16,7 @@
 
 ;; Identity function (operator)
 (define (id x) x)
-(define Identity id) ;; alias
+(define identity id) ;; alias
 
 (define ≤ <=)
 (define ≥ >=)
@@ -653,16 +653,16 @@
 ;; compiles a string of C code and creates an executable file.
 ;;
 (define (create-executable code name) 
-  ($ code))
+  (expr->code-string code))
 
 ;;
 ;; compiles a string of C code and creates a library file.
 ;;
 (define (create-library code name) 
-  ($ code))
+  (expr->code-string code))
 
 ;;
 ;; compiles a string of C code and creates an object file.
 ;;
 (define (create-object-file source name)
-  ($ code))
+  (expr->code-string code))
