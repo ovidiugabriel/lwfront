@@ -483,7 +483,8 @@
 ;;
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CCall.html
 ;;
-(define (c-call fname args) 0)
+(define (c-call fname args)
+  (:= (.. fname "(" (string-join args ", ") ")" )))
 
 ;;
 ;; a symbolic representation of a break statement.
