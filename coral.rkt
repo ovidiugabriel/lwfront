@@ -71,9 +71,12 @@
 ;; Very similar to ToCodeString(), which generates a string of code from a symbolic expression
 ;; Ref: http://reference.wolfram.com/language/SymbolicC/ref/ToCCodeString.html
 ;; 
-(define (expr->code-string text)
+(define ($ text)
   (~a (force text)))
-(define $ expr->code-string)
+
+
+(define (expr->code-string expr) (<> (%tail expr)) )
+
 
 ;; https://reference.wolfram.com/language/ref/Composition.html
 (define @* compose)
@@ -393,7 +396,8 @@
 ;;
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CDo.html
 ;;
-(define (c-do body test) 0)
+(define (c-do body test)
+  (:= (.. "do {\n" body "\n} while (" test ");\n")))
 
 ;;
 ;; a symbolic representation of a for loop.
