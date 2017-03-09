@@ -369,7 +369,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CStandardMathOperator.html
 ;;
 (define (c-standard-math-operator oper args)
-  0 )
+  (:= (string-join args (.. " " oper " ")) ))
 
 ;;
 ;; a symbolic representation of code that will format using CForm[arg].
@@ -665,4 +665,4 @@
 ;; compiles a string of C code and creates an object file.
 ;;
 (define (create-object-file source name)
-  (expr->code-string code))
+  (expr->code-string source))
