@@ -114,6 +114,20 @@ A promise encapsulates an expression to be evaluated on demand.
 '(1 2 3)
 ```
 
+###### 'quote' on the playground
+
+```
+> (%apply + '(1 2))
+'(#<procedure:+> 2)
+> (eval (%apply + '(1 2)))
+2
+> (quote (+ 1 2))
+'(+ 1 2)
+> (%apply * (quote (+ 1 2)))
+'(#<procedure:*> 1 2)
+> (eval (%apply * (quote (+ 1 2))))
+```
+
 ##### Lectures
 
 * http://www.paulgraham.com/progbot.html
