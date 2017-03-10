@@ -492,7 +492,8 @@
 ;;
 (define (c-undef name) 0)
 
-(define (c-string string) (string-append "\"" string "\""))
+(define (c-string string)
+  (list string-append "\"" string "\""))
 
 (define (c-main block)
   (c-function '("int") "main" '(("int" "argc") ("char*" "argv[]")) block))
