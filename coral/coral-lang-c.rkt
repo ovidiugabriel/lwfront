@@ -87,6 +87,9 @@
 (provide c-preprocessor-endif) ;; conditional compile endif
 (provide c-undef) ;; undefine a macro
 
+;; Extra goodies
+(provide c-main)
+
 ;; ---------------------------------------------------------------------
 
 
@@ -489,4 +492,7 @@
 ;;
 (define (c-undef name) 0)
 
-(define (c-string) 0)
+(define (c-string string) (string-append "\"" string "\""))
+
+(define (c-main block)
+  (c-function '("int") "main" '(("int" "argc") ("char*" "argv[]")) block))
