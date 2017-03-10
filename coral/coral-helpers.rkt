@@ -4,11 +4,10 @@
 (require json)
 
 (provide %list)
-(provide ..)
 (provide $)
 (provide list-first)
 (provide list-second)
-(provide <>)
+(provide coral:string-join)
 (provide /@)
 (provide :=)
 (provide @*)
@@ -85,8 +84,10 @@
 (define ($ text)
   (~a (force text)))
 
+(define to-string ~a)
 
-(define (expr->code-string expr) (<> (%tail expr)) )
+
+(define (expr->code-string expr) (coral:string-join (%tail expr)) )
 
 
 ;; https://reference.wolfram.com/language/ref/Composition.html
@@ -120,21 +121,14 @@
 
 
 ;; https://reference.wolfram.com/language/ref/StringJoin.html
-(define (<> . sl)
+(define (coral:string-join . sl)
   (cond
-    [(list? (list-ref sl 0)) (string-join (list-ref sl 0))]
-    [else (string-join sl)] ) )
+    [(and (>= (length sl) 2) (string? (list-ref sl 1)) (list? (list-ref sl 0)))
+     (string-join (map to-string (list-ref sl 0)) (list-ref sl 1))]
 
-;; Empty string literal?
+    [(list? (list-ref sl 0)) (string-join (map to-string (list-ref sl 0)))]    
+    [else (string-join (map to-string sl))] ))
 
-;;
-;; The following expression:
-;;     (string-append "a" "b" "c")
-;;
-;; is equivalent with:
-;;     (string-join (list "a" "b" "c"))
-;;
-(define .. string-append)
 
 ;;
 ;; Racket already provides list first, but this function does more than that

@@ -97,7 +97,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CComment.html
 ;;
 (define (c-comment text pre-post)
-  (%list (.. ($ (list-first pre-post))
+  (%list (string-append ($ (list-first pre-post))
              "/*" ($ text) "*/"
              ($ (list-second pre-post))
              )
@@ -107,7 +107,7 @@
 
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CParentheses.html
 (define (c-parentheses symb)
-  (%list (<> (list "(" ($ symb) ")" ))))
+  (%list (coral:string-join (list "(" ($ symb) ")" ))))
 
 ;;
 ;; is a symbolic representation of an assignment statement.
@@ -115,7 +115,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CAssign.html
 ;;
 (define (c-assign lhs rhs)
-  (%list (<> (list lhs " = " ($ rhs)))))
+  (%list (coral:string-join (list lhs " = " ($ rhs)))))
 
 ;;
 ;; a symbolic representation of an operator.
@@ -123,7 +123,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/COperator.html
 ;;
 (define (c-operator oper lst)
-  (%list (<> (/@ $ lst) (<> (list " " oper " ")))))
+  (%list (coral:string-join (/@ $ lst) (coral:string-join (list " " oper " ")))))
 
 ;;
 ;; a symbolic representation of an inline conditional expression.
@@ -131,16 +131,19 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CConditional.html
 ;;
 (define (c-conditional test true-arg false-arg)
-  (:= (<> (list ($ test) " ? " ($ true-arg) " : " ($ false-arg)))))
+  (:= (coral:string-join (list ($ test) " ? " ($ true-arg) " : " ($ false-arg)))))
 
 ;; 
 ;;  @param list args
 ;;
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CBlock.html
+;;
+;; Automatically calls `c-statement` (when needed?)
+;;
 (define (c-block args)
-  (:= (<>
+  (:= (coral:string-join
        (list "{" "\n"
-             (<> (/@ (@* $ c-statement)
+             (coral:string-join (/@ (@* $ c-statement)
                      args
                      ) "\n")
              "\n" "}" "\n"
@@ -157,7 +160,7 @@
 ;;
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CDeclare.html
 (define (c-declare type var)
-  (:= (.. ($ type) " " var)))
+  (:= (string-append ($ type) " " var)))
 
 ;;
 ;; is a symbolic representation of a return from a function. 
@@ -165,7 +168,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CReturn.html
 ;;
 (define (c-return arg)
-  (:= (.. keyword:return " " ($ arg)) ))
+  (:= (string-append keyword:return " " ($ arg)) ))
 
 ;;
 ;; a symbolic representation of a preprocessor include statement. 
@@ -173,21 +176,25 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CInclude.html
 ;;
 (define (c-include header)
-  (:= (.. prep:include " " "\"" header "\"\n") ))
+  (:= (string-append prep:include " " "\"" header "\"\n") ))
 
 ;;
 ;; a symbolic representation of a function definition.
 ;;
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CFunction.html
 ;;
+;; type - a list of strings
+;; name - a string
+;; args - a list
+;; body - a string
+;;
 (define (c-function type name args body)
-  (:= (.. (<> (/@ $ type) " ") " " name
+  (:= (string-append (coral:string-join type) " " name
           ; parameters list
-          "(" (<> (/@ $ args) ", ") ")"
+          "(" (coral:string-join (map coral:string-join args) ", ") ")"
           ($ body)
-          )
-      )
-  )
+          )))
+
 
 
 ;;
@@ -196,7 +203,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CStatement.html
 ;;
 (define (c-statement obj)
-  (:= (.. ($ obj) ";") ))
+  (:= (string-append ($ obj) ";") ))
 
 ;;
 ;; `c-constant` is a symbolic representation of a constant.
@@ -204,7 +211,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CConstant.html
 ;;
 (define (c-constant value type)
-  (:= (.. ($ value) type)))
+  (:= (string-append ($ value) type)))
 
 ;;
 ;; a symbolic representation of a type that is a pointer to a type.
@@ -212,7 +219,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CPointerType.html
 ;;
 (define (c-pointer-type type)
-  (:= (.. ($ type) "*") ))
+  (:= (string-append ($ type) "*") ))
   
 
 ;;
@@ -221,7 +228,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CStandardMathOperator.html
 ;;
 (define (c-standard-math-operator oper args)
-  (:= (string-join args (.. " " oper " ")) ))
+  (:= (string-join args (string-append " " oper " ")) ))
 
 ;;
 ;; a symbolic representation of code that will format using CForm[arg].
@@ -246,7 +253,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CDo.html
 ;;
 (define (c-do body test)
-  (:= (.. "do {\n" body "\n} while (" test ");\n")))
+  (:= (string-append "do {\n" body "\n} while (" test ");\n")))
 
 ;;
 ;; a symbolic representation of a for loop.
@@ -333,7 +340,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CCall.html
 ;;
 (define (c-call fname args)
-  (:= (.. fname "(" (string-join args ", ") ")" )))
+  (:= (string-append fname "(" (string-join args ", ") ")" )))
 
 ;;
 ;; a symbolic representation of a break statement.
