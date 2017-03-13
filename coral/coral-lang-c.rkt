@@ -2,9 +2,7 @@
 
 (require "coral-helpers.rkt")
 
-
 ;; a list of simple definitions
-(define keyword:return "return")
 (define keyword:char "char")
 
 (define prep:include "#include")
@@ -118,15 +116,15 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CAssign.html
 ;;
 (define (c-assign lhs rhs)
-  (%list (coral:string-join (list lhs " = " ($ rhs)))))
+  (list string-append lhs " = " rhs))
 
 ;;
 ;; a symbolic representation of an operator.
 ;;
 ;; https://reference.wolfram.com/language/SymbolicC/ref/COperator.html
 ;;
-(define (c-operator oper lst)
-  (%list (coral:string-join (/@ $ lst) (coral:string-join (list " " oper " ")))))
+(define (c-operator oper lst)  
+  (list coral:string-join (apply %list lst) (string-append " " oper " ")))
 
 ;;
 ;; a symbolic representation of an inline conditional expression.
@@ -136,6 +134,8 @@
 (define (c-conditional test true-arg false-arg)
   (:= (coral:string-join (list ($ test) " ? " ($ true-arg) " : " ($ false-arg)))))
 
+(define (lazy-eval expr) (list eval expr))
+
 ;; 
 ;;  @param list args
 ;;
@@ -144,34 +144,25 @@
 ;; Automatically calls `c-statement` (when needed?)
 ;;
 (define (c-block args)
-  (:= (coral:string-join
-       (list "{" "\n"
-             (coral:string-join (/@ (@* $ c-statement)
-                     args
-                     ) "\n")
-             "\n" "}" "\n"
-             )
-       ))
-  )
+  (list string-append "{\n"
+        (list coral:string-join (apply %list args) "\n")
+        "\n}\n"))
 
 ;;
 ;; a symbolic representation of a variable declaration.
 ;;
-;; This function is using a contract
-;;    @param any type
-;;    @param string var
-;;
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CDeclare.html
+;;
 (define (c-declare type var)
-  (:= (string-append ($ type) " " var)))
+  (list string-append ($ type) " " var))
 
 ;;
 ;; is a symbolic representation of a return from a function. 
 ;;
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CReturn.html
 ;;
-(define (c-return arg)
-  (:= (string-append keyword:return " " ($ arg)) ))
+(define (c-return [arg ""])
+  (list string-append "return" (if (equal? "" arg) arg " ") (list eval (~a arg))))
 
 ;;
 ;; a symbolic representation of a preprocessor include statement. 
@@ -179,7 +170,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CInclude.html
 ;;
 (define (c-include header)
-  (:= (string-append prep:include " " "\"" header "\"\n") ))
+  (list string-append "#include" " " "\"" (list eval header) "\"\n"))
 
 ;;
 ;; a symbolic representation of a function definition.
@@ -192,13 +183,10 @@
 ;; body - a string
 ;;
 (define (c-function type name args body)
-  (:= (string-append (coral:string-join type) " " name
-          ; parameters list
-          "(" (coral:string-join (map coral:string-join args) ", ") ")"
-          ($ body)
-          )))
-
-
+  (list string-append
+               (coral:string-join type) " " name
+               "(" (coral:string-join (map coral:string-join args) ", ") ")"
+               (list eval body) ))
 
 ;;
 ;; is a symbolic representation of a statement. 
@@ -206,7 +194,7 @@
 ;; https://reference.wolfram.com/language/SymbolicC/ref/CStatement.html
 ;;
 (define (c-statement obj)
-  (:= (string-append ($ obj) ";") ))
+  (list string-append (list eval obj) ";"))
 
 ;;
 ;; `c-constant` is a symbolic representation of a constant.
@@ -493,7 +481,55 @@
 (define (c-undef name) 0)
 
 (define (c-string string)
-  (list string-append "\"" string "\""))
+  (list string-append "\"" (list eval (~a string)) "\""))
+
 
 (define (c-main block)
-  (c-function '("int") "main" '(("int" "argc") ("char*" "argv[]")) block))
+  (c-function (list "int") "main" (list (list "int" "argc") (list "char*" "argv[]"))
+              block))
+
+;; (current-namespace (make-base-namespace))
+
+;; (c-return "0")
+;; (eval (c-return "0"))
+
+;; (c-statement (c-return "0"))
+;; (eval (c-statement (c-return "0")))
+
+;; (c-statement (c-return "0"))
+;; (eval (c-statement (c-return "0")))
+
+;;(define code
+;;  (c-block (list            
+;;            (c-return 0)
+;;            (c-return 1)
+;;            )))
+
+;; code
+;; (display "Eval: ")
+;;(display (eval code))
+
+;; (eval (%list (c-statement (c-return 0))))
+
+;; (c-block (c-statement (c-return "x")))
+;; (eval (c-block (c-statement (c-return "x"))))
+
+
+;; (define code
+;;  (c-assign "x" (c-operator "+" '(5 6))))
+
+
+;; code
+;; (eval code)
+
+;; (c-declare "int" "x")
+;; (c-return "x")
+
+
+
+
+;; CBlock[{
+;;     CDeclare["int", "x"],
+;;     CAssign["x", COperator[Plus, {5, 6}]], 
+;;   CReturn["x"]
+;; }] // ToCCodeString

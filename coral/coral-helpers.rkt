@@ -1,6 +1,6 @@
 #lang racket
 
-(require racket/sandbox)  ;; required for evaluation of racket expressions
+;; (require racket/sandbox)  ;; required for evaluation of racket expressions
 (require json)
 
 (provide %list)
@@ -13,15 +13,15 @@
 (provide @*)
 (provide expr->code-string)
 (provide %apply)
+(provide to-string)
 
 ;;
 ;; Decodes a JSON string
 ;;
 (define json-decode string->jsexpr)
 
-;; Code evaluation operator
-(define $$ (make-evaluator 'racket))
-(define § $$)
+(define-namespace-anchor anchor)
+(define ns (namespace-anchor->namespace anchor))
 
 ;; Identity function (operator)
 (define (id x) x)
@@ -51,15 +51,15 @@
   (if (> (length rest) 0)
       ;; the first element must be duplicated because
       ;; it is replaced by the apply operation
-      (@@ list (append (list (%head rest)) rest))
-      null))
+      (%apply list (append (list (%head rest)) rest))
+      '() ))
 
 ;;
 ;; Evaluates an expression by applying (using @@ operator) the Identity function
 ;; (id operator) over the expression and then calling the Racket code evaluator
 ;;
-(define (eval-as-is expr)
-  ($$ (@@ id expr)))
+;;(define (eval-as-is expr)
+;;  (evalu (@@ id expr)))
 
 ;;
 ;; Lazy function definition operator.
@@ -135,7 +135,7 @@
 ;;
 (define (list-first pre-post)
   (if (> (length pre-post) 0)
-      (%head ($$ pre-post))
+      (%head (eval pre-post))
       ""))
 
 ;;
@@ -143,6 +143,6 @@
 ;;
 (define (list-second pre-post)
   (if (> (length pre-post) 2)
-      (%head (%tail ($$ pre-post)))
+      (%head (%tail (eval pre-post)))
       ""))
 
