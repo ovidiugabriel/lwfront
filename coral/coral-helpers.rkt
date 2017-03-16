@@ -13,15 +13,11 @@
 (provide @*)
 (provide expr->code-string)
 (provide %apply)
-(provide to-string)
 
 ;;
 ;; Decodes a JSON string
 ;;
 (define json-decode string->jsexpr)
-
-(define-namespace-anchor anchor)
-(define ns (namespace-anchor->namespace anchor))
 
 ;; Identity function (operator)
 (define (id x) x)
@@ -84,8 +80,6 @@
 (define ($ text)
   (~a (force text)))
 
-(define to-string ~a)
-
 
 (define (expr->code-string expr) (coral:string-join (%tail expr)) )
 
@@ -124,10 +118,10 @@
 (define (coral:string-join . sl)
   (cond
     [(and (>= (length sl) 2) (string? (list-ref sl 1)) (list? (list-ref sl 0)))
-     (string-join (map to-string (list-ref sl 0)) (list-ref sl 1))]
+     (string-join (map ~a (list-ref sl 0)) (list-ref sl 1))]
 
-    [(list? (list-ref sl 0)) (string-join (map to-string (list-ref sl 0)))]    
-    [else (string-join (map to-string sl))] ))
+    [(list? (list-ref sl 0)) (string-join (map ~a (list-ref sl 0)))]    
+    [else (string-join (map ~a sl))] ))
 
 
 ;;
