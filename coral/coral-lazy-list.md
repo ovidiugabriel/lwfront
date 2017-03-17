@@ -1,5 +1,9 @@
 
+### Lazy expressions
+
 Lazy expressions can be easily stored in lists as `(list ...)`. Argument evaluation must be also delayed using `(list eval arg)`
+
+#### Lazy expressions in Racket code
 
 ```racket
 #lang racket
@@ -23,20 +27,52 @@ Lazy expressions can be easily stored in lists as `(list ...)`. Argument evaluat
 ;; "return 0;"
 ```
 
-To understand why this is so powerful and useful at the same time, let's see an example on how this can be implemented in C++.
-Note that memory management is not handled, account for that to extra complexity in the code.
+#### Examples in C++ code
+
+To understand why this is so powerful and useful at the same time, let's see an example on how the same functionality can be achieved in C++. (Ignored memory management handling, that will add extra complexity in the code).
+
+##### CReturn Class
 
 ```cpp
-#include <string>
-#include <vector>
-#include <string.h>
+class CReturn : public Expression {
+  Expression* mArg;
 
-#define C_STR(ex)    (ex).toString().c_str()
-#define DISPLAY(ex)  printf("%s: %s = '%s'\n", __FUNCTION__, #ex, C_STR(ex))
+  // Implementation of (c-return arg)
+  void c_return() {
+    append("return");
+    append(" ");
+    append(mArg);
+  }
+public:
+  CReturn(Expression* arg) : mArg(arg) {
+    c_return();
+  }
 
-using std::string;
-using std::vector;
+  // The effect of (list eval (~a arg)) 
+  CReturn(const char* arg) {
+    mArg = new Expression(arg);
+    c_return();
+  }
+};
 ```
+
+##### CStatement Class
+
+```cpp
+class CStatement : public Expression {
+  Expression* mObj;
+
+public:
+  // Implementation of (c-statement obj)
+  CStatement(Expression* obj) : mObj(obj) {
+    append(mObj);
+    append(";");
+  }
+};
+```
+
+
+##### Expression Class
 
 ```cpp
 class Expression {
@@ -76,45 +112,4 @@ public:
     return s;
   }
 };
-```
-
-```cpp
-class CReturn : public Expression {
-  Expression* mArg;
-
-  // Implementation of (c-return arg)
-  void c_return() {
-    append("return");
-    append(" ");
-    append(mArg);
-  }
-public:
-  CReturn(Expression* arg) : mArg(arg) {
-    c_return();
-  }
-
-  // The effect of (list eval (~a arg)) 
-  CReturn(const char* arg) {
-    mArg = new Expression(arg);
-    c_return();
-  }
-};
-```
-
-```cpp
-class CStatement : public Expression {
-  Expression* mObj;
-
-public:
-  // Implementation of (c-statement obj)
-  CStatement(Expression* obj) : mObj(obj) {
-    append(mObj);
-    append(";");
-  }
-};
-
-int main(void)
-{
-  DISPLAY( CStatement(new CReturn("0")) );
-}
 ```
