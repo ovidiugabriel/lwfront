@@ -88,3 +88,8 @@ public:
   CStatement(Expression* obj) : mObj(obj) { append(mObj); append(";"); }
 };
 ```
+
+```racket
+(define (c-statement obj)
+  (list string-append (list eval obj) ";") )
+```
