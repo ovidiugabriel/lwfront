@@ -38,22 +38,19 @@ class CReturn : public Expression {
   Expression* mArg;
 
   // Implementation of (c-return arg)
-  void c_return() {
-    append("return");
-    append(" ");
-    append(mArg);
-  }
+  void c_return() { append("return"); append(" "); append(mArg); }
 public:
-  CReturn(Expression* arg) : mArg(arg) {
-    c_return();
-  }
+  CReturn(Expression* arg) : mArg(arg) { c_return(); }
 
   // The effect of (list eval (~a arg)) 
-  CReturn(const char* arg) {
-    mArg = new Expression(arg);
-    c_return();
-  }
+  CReturn(const char* arg) { mArg = new Expression(arg); c_return(); }
 };
+```
+
+```racket
+(define (c-return arg)
+  (list string-append "return" " " (list eval (~a arg)) ))
+
 ```
 
 ##### CStatement Class
