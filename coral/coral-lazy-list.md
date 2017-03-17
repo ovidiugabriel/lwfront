@@ -38,40 +38,19 @@ First we have to consider an `Expression` class, that allows working with lists,
 ```cpp
 class Expression {
   const char* value;
+
 protected:
-  vector<Expression*> List;
-  void append(const char* val) {
-    List.push_back(new Expression(val));
-  }
-  
-  void append(Expression* expr) {
-    List.push_back(expr);
-  }
+  vector<Expression*> mList;
+  void append(const char* val);   // pushes val in List 
+  void append(Expression* expr);  // pushes expr in List
 
 public:
-  explicit Expression() {
-    value = "";
-  }
-  
-  Expression(const char* value) {
-    this->value = value;
-  }
+  explicit Expression();
+  Expression(const char* value);
 
-  string toString() {
-    string s;
-  
-    int n = List.size();
-    if (0 == n) {
-      return string(this->value);
-    }
-
-    for (int i = 0; i < n; ++i) {
-        if (List[i] != NULL) {
-           s += List[i]->toString();
-        }
-     }
-    return s;
-  }
+  // Converts this->List to a string. 
+  // If List is empty, returns this->value as std::string
+  string toString();
 };
 ```
 
