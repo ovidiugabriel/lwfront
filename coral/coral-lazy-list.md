@@ -17,8 +17,8 @@ Lazy expressions can be easily stored in lists as `(list ...)`. Argument evaluat
 (eval (c-return 0))
 ;; "return 0"
 (c-statement (c-return 0))
-'(#<procedure:string-append> (#<procedure:eval> (#<procedure:string-append> "return" " " 
-   (#<procedure:eval> "0"))) ";")
+;; '(#<procedure:string-append> (#<procedure:eval> (#<procedure:string-append> "return" " " 
+;;   (#<procedure:eval> "0"))) ";")
 (eval (c-statement (c-return 0)))
 ;; "return 0;"
 ```
