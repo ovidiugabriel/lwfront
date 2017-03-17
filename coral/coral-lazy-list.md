@@ -106,9 +106,6 @@ class CStatement : public Expression {
 
 public:
   // Implementation of (c-statement obj)
-  CStatement(Expression* obj) : mObj(obj) {
-    append(mObj);
-    append(";");
-  }
+  CStatement(Expression* obj) : mObj(obj) { append(mObj); append(";"); }
 };
 ```
