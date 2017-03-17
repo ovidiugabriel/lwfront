@@ -36,7 +36,9 @@ Note that memory management is not handled, account for that to extra complexity
 
 using std::string;
 using std::vector;
+```
 
+```cpp
 class Expression {
   const char* value;
 protected:
@@ -74,7 +76,9 @@ public:
     return s;
   }
 };
+```
 
+```cpp
 class CReturn : public Expression {
   Expression* mArg;
 
@@ -95,7 +99,9 @@ public:
     c_return();
   }
 };
+```
 
+```cpp
 class CStatement : public Expression {
   Expression* mObj;
 
