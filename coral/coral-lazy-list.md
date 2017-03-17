@@ -31,43 +31,7 @@ Lazy expressions can be easily stored in lists as `(list ...)`. Argument evaluat
 
 To understand why this is so powerful and useful at the same time, let's see an example on how the same functionality can be achieved in C++. (Ignored memory management handling, that will add extra complexity in the code).
 
-##### CReturn Class
-
-```cpp
-class CReturn : public Expression {
-  Expression* mArg;
-
-  // Implementation of (c-return arg)
-  void c_return() { append("return"); append(" "); append(mArg); }
-public:
-  CReturn(Expression* arg) : mArg(arg) { c_return(); }
-
-  // The effect of (list eval (~a arg)) 
-  CReturn(const char* arg) { mArg = new Expression(arg); c_return(); }
-};
-```
-
-```racket
-(define (c-return arg)
-  (list string-append "return" " " (list eval (~a arg)) ))
-
-```
-
-##### CStatement Class
-
-```cpp
-class CStatement : public Expression {
-  Expression* mObj;
-
-public:
-  // Implementation of (c-statement obj)
-  CStatement(Expression* obj) : mObj(obj) {
-    append(mObj);
-    append(";");
-  }
-};
-```
-
+First we have to consider an `Expression` class, that allows working with lists, converting different types and joining strings. For a simple example we just used `vector` instead of `list`.
 
 ##### Expression Class
 
@@ -107,6 +71,44 @@ public:
         }
      }
     return s;
+  }
+};
+```
+
+
+##### CReturn Class
+
+```cpp
+class CReturn : public Expression {
+  Expression* mArg;
+
+  // Implementation of (c-return arg)
+  void c_return() { append("return"); append(" "); append(mArg); }
+public:
+  CReturn(Expression* arg) : mArg(arg) { c_return(); }
+
+  // The effect of (list eval (~a arg)) 
+  CReturn(const char* arg) { mArg = new Expression(arg); c_return(); }
+};
+```
+
+```racket
+(define (c-return arg)
+  (list string-append "return" " " (list eval (~a arg)) ))
+
+```
+
+##### CStatement Class
+
+```cpp
+class CStatement : public Expression {
+  Expression* mObj;
+
+public:
+  // Implementation of (c-statement obj)
+  CStatement(Expression* obj) : mObj(obj) {
+    append(mObj);
+    append(";");
   }
 };
 ```
