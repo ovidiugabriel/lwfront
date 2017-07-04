@@ -32,7 +32,7 @@ Lazy expressions can be easily stored in lists as `(list ...)`. Argument evaluat
 
 #### Examples in Java code
 
-To understand why this is so powerful and useful at the same time, let's see an example on how the same functionality can be achieved in Java. 
+To understand why this is so powerful and useful at the same time, let's see an example on how the same functionality can be achieved in Java. ( here is a draft example in C++: https://repl.it/G0Zl/84 )
 
 First we have to consider an `Expression` class, that allows working with lists, converting different types and joining strings. For a simple example we just used `vector` instead of `list`.
 
