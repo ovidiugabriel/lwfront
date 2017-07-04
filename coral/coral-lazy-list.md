@@ -38,6 +38,8 @@ First we have to consider an `Expression` class, that allows working with lists,
 
 ##### Expression Class
 
+The basic idea is that we want to have a list (list as concept, vector as implementation) of expressions that chain expressions together, chaining is usually done in the constructor, and then we want to have automatically called toString() method that goes recursively in on each element of the vector and concatenate the children, providing a single string as a final result of rendering the entire data structure.
+
 ```java
 import java.util.Vector;
 
