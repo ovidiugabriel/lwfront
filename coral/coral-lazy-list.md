@@ -30,48 +30,84 @@ Lazy expressions can be easily stored in lists as `(list ...)`. Argument evaluat
 ;; "return 0;"
 ```
 
-#### Examples in C++ code
+#### Examples in Java code
 
-To understand why this is so powerful and useful at the same time, let's see an example on how the same functionality can be achieved in C++. (Ignored memory management handling, that will add extra complexity in the code).
+To understand why this is so powerful and useful at the same time, let's see an example on how the same functionality can be achieved in Java. 
 
 First we have to consider an `Expression` class, that allows working with lists, converting different types and joining strings. For a simple example we just used `vector` instead of `list`.
 
 ##### Expression Class
 
-```cpp
+```java
+import java.util.Vector;
+
 class Expression {
-  const char* value;
+    private String value;
+    private Vector<Expression> vector;
 
-protected:
-  vector<Expression*> mList;
-  void append(const char* val);   // pushes val in List 
-  void append(Expression* expr);  // pushes expr in List
+    public Expression() {
+        this("");
+    }
+    
+    public Expression(int value) {
+        this(String.valueOf(value));
+    }
 
-public:
-  explicit Expression();
-  Expression(const char* value);
-
-  // Converts this->List to a string. 
-  // If List is empty, returns this->value as std::string
-  string toString();
-};
+    public Expression(String value) {
+        this.vector = new Vector<Expression>();
+        this.value = value;
+    }
+    
+    public void append(String value) {
+        this.append(new Expression(value));
+    }
+    
+    public void append(Expression value) {
+        this.vector.add(value);
+    }
+    
+    public void append(int value) {
+        this.append(String.valueOf(value));
+    }
+    
+    public String toString() {
+        if (this.vector.size() == 0) {
+            return this.value;
+        }
+        StringBuffer buffer = new StringBuffer();
+        for (Expression expr : this.vector) {
+            buffer.append(expr); 
+        }
+        return buffer.toString();
+    }
+}
 ```
-
 
 ##### CReturn Class
 
-```cpp
-class CReturn : public Expression {
-  Expression* mArg;
+```java
+class CReturn extends Expression {
+    private Expression arg;
 
-  // Implementation of (c-return arg)
-  void c_return() { append("return"); append(" "); append(mArg); }
-public:
-  CReturn(Expression* arg) : mArg(arg) { c_return(); }
-
-  // The effect of (list eval (~a arg)) 
-  CReturn(const char* arg) { mArg = new Expression(arg); c_return(); }
-};
+    public CReturn(int value) {
+        this(new Expression(value));
+    }
+    
+    public CReturn(String value) {
+        this(new Expression(value));
+    }
+    
+    public CReturn(Expression expr) {
+        this.arg = expr;
+        this.CReturnImpl();
+    }
+    
+    private void CReturnImpl() {
+        this.append("return");
+        this.append(" ");
+        this.append(this.arg);
+    }
+}
 ```
 
 ```racket
@@ -82,14 +118,15 @@ public:
 
 ##### CStatement Class
 
-```cpp
-class CStatement : public Expression {
-  Expression* mObj;
-
-public:
-  // Implementation of (c-statement obj)
-  CStatement(Expression* obj) : mObj(obj) { append(mObj); append(";"); }
-};
+```java
+class CStatement extends Expression {
+    private Expression expr;
+    public CStatement(Expression expr) {
+        this.expr = expr;
+        this.append(expr);
+        this.append(";");
+    }
+}
 ```
 
 ```racket
