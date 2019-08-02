@@ -1,3 +1,4 @@
+#lang racket
 
 ;; Map[#^2 &, a + b + c] => a^2 + b^2 + c^2
 
