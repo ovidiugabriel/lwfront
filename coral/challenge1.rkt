@@ -5,13 +5,12 @@
 (define b 2)
 (define c 3)
 
-(define (lpow2 x) (list expt x 2))
-(define expr (list + 'a 'b 'c))
+(define (%map func expr)
+  (let ([head (car expr)])    
+    (cons head (map func (cdr expr))) ))
 
-(define F (car expr))
-(define L
-  (map lpow2 (cdr expr)) )
+(define L (%map (λ (x) (list expt x 2)) (list + 'a 'b 'c)))
 
 (define-namespace-anchor anchor)
 (define ns (namespace-anchor->namespace anchor))
-(eval (cons F L) ns)
+(eval L ns)
