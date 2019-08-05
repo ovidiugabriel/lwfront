@@ -112,6 +112,12 @@ class CReturn extends Expression {
 }
 ```
 
+> Object-oriented ... lets you incorporate all this scaffolding right into your source code. Something that a Lisp hacker might handle by pushing a symbol onto a list becomes a whole file of classes and methods. So it is a good tool if you want to convince yourself, or someone else, that you are doing a lot of work.
+
+[Paul Graham - Why Arc Isn't Especially Object- Oriented](http://www.paulgraham.com/noop.html)
+
+
+
 ```racket
 (define (c-return arg)
   (list string-append "return" " " (list eval (~a arg)) ))
