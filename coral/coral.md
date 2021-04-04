@@ -45,7 +45,8 @@ And their effect is the same - to prevent the applicative behavior in list expre
 
 ```
 
-At this level [list expressions](http://learnlispthehardway.org/book/1-01-03-expressions/) are the same as in LISP.
+At this level [list expressions](https://github.com/LispTO/LLTHW/blob/master/book/1-01-03-expressions.md) 
+are the same as in LISP.
 When a list is evaluated, it is treated as code unless it is quoted. 
 
 
