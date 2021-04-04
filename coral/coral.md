@@ -63,43 +63,43 @@ a: undefined;
 ```
 
 
-###### Delayed Assignment Operator
+###### Delayed Assignment using promises
 
 A promise encapsulates an expression to be evaluated on demand.
 
 ```
-> (define d (:= '(1 2 3 4)))
+> (define d (lazy '(1 2 3 4)))
 > d ; a promise that encapsulates the expression
 #<promise:...:44:2>
 
 > (force d) ; evaluates the promise
 '(1 2 3 4)
 
-> ($ d) ; this always evaluates to a string
+> (~a (force d)) ; this always evaluates to a string
 "(1 2 3 4)"
 
-> (define (yy) (:= 5))
-> ($ yy) ; here yy is a function
-"#<procedure:yy>"
+> (define (yy) (lazy 5))
+> (force yy) ; here yy is a function
+#<procedure:yy>
 
-> ($ (yy))
-"5"
+> (force (yy))
+5
 
-> (define y (:= 5))
-> ($ y) ; here y is a variable
-"5"
+> (define y (lazy 5))
+> (force y) ; here y is a variable
+5
 
 ```
 
 ###### Lambda function (Racket)
 
 ```
-> (define (x) (λ () 5))
+> (define (x) (lambda () 5))
 > x ; here x is a function
 #<procedure:x>
 
 > (x) ; the lambda function is returned
-#<procedure:λ>
+#<procedure:lambda>
 
 > ((x)) ; the lambda function is called
 5
