@@ -13,5 +13,4 @@ Other projects you may be insterested in:
 
 *Note:* ROOT is an object-oriented program and library developed by CERN.
 
-
-[![Flattr Button](http://api.flattr.com/button/button-compact-static-100x17.png "Flattr This!")](https://flattr.com/submit/auto?fid=66xpok&url=https%3A%2F%2Fgithub.com%2Fovidiugabriel%2Flwfront "")
+**Flattr - Service No Longer Exists**
